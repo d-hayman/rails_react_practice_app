@@ -1,6 +1,7 @@
 class Article < ApplicationRecord
 	include Visible
 	include ValidLinks
+	include NavHelpers
 
 	has_many :comments, dependent: :destroy
 
