@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_09_040623) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_11_011642) do
   create_table "articles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -31,5 +31,38 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_09_040623) do
     t.index ["article_id"], name: "index_comments_on_article_id"
   end
 
+  create_table "permissions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "model"
+    t.string "action"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action"], name: "index_permissions_on_action"
+    t.index ["model"], name: "index_permissions_on_model"
+  end
+
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "username"
+    t.string "password"
+    t.string "email"
+    t.string "uuid"
+    t.integer "visits"
+    t.datetime "lastLogin"
+    t.boolean "verified"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email"
+    t.index ["username"], name: "index_users_on_username"
+    t.index ["uuid"], name: "index_users_on_uuid"
+  end
+
+  create_table "users_permissions", primary_key: ["user_id", "permission_id"], charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "permission_id", null: false
+    t.index ["permission_id"], name: "index_users_permissions_on_permission_id"
+    t.index ["user_id"], name: "index_users_permissions_on_user_id"
+  end
+
   add_foreign_key "comments", "articles"
+  add_foreign_key "users_permissions", "permissions", on_delete: :cascade
+  add_foreign_key "users_permissions", "users", on_delete: :cascade
 end
