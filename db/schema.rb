@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_11_011642) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_15_023534) do
   create_table "articles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -40,6 +40,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_11_011642) do
     t.index ["model"], name: "index_permissions_on_model"
   end
 
+  create_table "user_sessions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "token"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_user_sessions_on_token"
+    t.index ["user_id"], name: "index_user_sessions_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "username"
     t.string "password"
@@ -63,6 +72,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_11_011642) do
   end
 
   add_foreign_key "comments", "articles"
+  add_foreign_key "user_sessions", "users"
   add_foreign_key "users_permissions", "permissions", on_delete: :cascade
   add_foreign_key "users_permissions", "users", on_delete: :cascade
 end
