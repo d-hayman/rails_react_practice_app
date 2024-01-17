@@ -21,6 +21,8 @@ function ArticlesList(){
                         const json = await response.json();
                         setArticles(json)
                         cached = articles;
+                    } else {
+                        throw response;
                     }
                 }
             } catch(e) {
