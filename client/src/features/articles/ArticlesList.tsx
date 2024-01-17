@@ -2,18 +2,26 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../../constants';
 
+let cached:any[] = [];
+
 function ArticlesList(){
     const [articles, setArticles] = useState<any[]>([]);
     const [, setLoading] = useState(true);
     const [,setError] = useState('');
     //fetch articles
     useEffect(() =>{
-        async function loadArticles() {
+       const loadArticles = async() => {
             try {
-                const response = await fetch(API_URL);
-                if(response.ok) {
-                    const json = await response.json();
-                    setArticles(json)
+                if (cached.length > 0)
+                    setArticles(cached);
+                else
+                {
+                    const response = await fetch(API_URL);
+                    if(response.ok) {
+                        const json = await response.json();
+                        setArticles(json)
+                        cached = articles;
+                    }
                 }
             } catch(e) {
                 setError("An error occurred.");
