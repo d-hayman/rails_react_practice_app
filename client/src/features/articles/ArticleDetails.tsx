@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../../constants';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import  DeletionModal from '../../components/DeletionModal';
 
 let cached: any = null;
 
 function ArticleDetails() {
     const [article, setArticle] = useState<any>(null);
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCurrentArticle = async () => {
@@ -49,6 +51,11 @@ function ArticleDetails() {
                 </li>
             ))}
         </ul>
+        <Link to={`/article/${article.id}/edit`}>Edit</Link>
+        {" | "}
+        <Link to="/">Back to Articles</Link>
+        {" | "}
+        <DeletionModal article={article} callback={()=>{navigate("/")}}/>
 
     </div>;
 }

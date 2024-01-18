@@ -23,11 +23,19 @@ module Api
         end
       end
 
+      def update
+        @article = Article.find(params[:id])
+    
+        if @article.update(article_params)
+          render json: @article
+        else
+          render json: @article.errors, status: :unprocessable_entity
+        end
+      end
+
       def destroy
         @article = Article.find(params[:id])
         @article.destroy
-
-        redirect_to root_path, status: :see_other
       end
 
       private
