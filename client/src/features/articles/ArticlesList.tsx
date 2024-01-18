@@ -1,6 +1,7 @@
 // API_URL comes from env
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../../constants';
+import { Link } from 'react-router-dom';
 
 let cached:any[] = [];
 
@@ -37,7 +38,11 @@ function ArticlesList(){
     return <div>
         {articles.map((article:any) => (
             <div key={article.id} className='article-container'>
-                <h2>{article.title}</h2>
+                <h2>
+                    <Link to={`/article/${article.id}`} className='article-title'>
+                        {article.title}
+                    </Link>
+                </h2>
                 <p>{article.created_at}</p>
             </div>
         ))}
