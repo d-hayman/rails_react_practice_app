@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { API_URL } from '../constants';
+import { deleteArticle } from '../shared/services/articles.service';
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
@@ -12,7 +12,7 @@ function DeletionModal({ article, callback }: { article: any, callback:any }) {
     };
 
     const handleConfirm = () => {
-        deleteArticle();
+        doDeleteArticle();
         setVisible(false);
     };
 
@@ -20,23 +20,14 @@ function DeletionModal({ article, callback }: { article: any, callback:any }) {
         setVisible(false);
     };
 
-    const deleteArticle = async () => {
+    const doDeleteArticle = async () => {
         if (article === null)
             return;
         try {
-            const response = await fetch(`${API_URL}/${article.id}`, {
-                method: "DELETE"
-            });
-
-            if (response.ok) {
-                if(typeof callback === 'function'){
-                    callback();
-                }
-            } else {
-                throw response;
-            }
+            await deleteArticle(article.id);
+            callback();
         } catch (e) {
-            console.log(e);
+            console.error("Failed to delete the article: ", e);
         }
     };
 

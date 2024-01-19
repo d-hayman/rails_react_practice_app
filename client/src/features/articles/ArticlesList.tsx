@@ -1,6 +1,6 @@
 // API_URL comes from env
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../../constants';
+import { fetchAllArticles } from '../../shared/services/articles.service';
 import { Link } from 'react-router-dom';
 import  DeletionModal from '../../components/DeletionModal';
 
@@ -9,7 +9,7 @@ let cached:any[] = [];
 function ArticlesList(){
     const [articles, setArticles] = useState<any[]>([]);
     const [, setLoading] = useState(true);
-    const [,setError] = useState('');
+    const [,setError] = useState<any>(null);
     //fetch articles
     const loadArticles = async() => {
         try {
@@ -17,18 +17,13 @@ function ArticlesList(){
                 setArticles(cached);
             else
             {
-                const response = await fetch(API_URL);
-                if(response.ok) {
-                    const json = await response.json();
-                    setArticles(json)
-                    cached = articles;
-                } else {
-                    throw response;
-                }
+                const data = await fetchAllArticles();
+                setArticles(data);
+                cached = articles;
+                setLoading(false);
             }
         } catch(e) {
-            setError("An error occurred.");
-        } finally {
+            setError(e);
             setLoading(false);
         }
     }

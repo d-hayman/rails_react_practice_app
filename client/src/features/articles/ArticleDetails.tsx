@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../../constants';
+import { fetchArticle } from '../../shared/services/articles.service';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import  DeletionModal from '../../components/DeletionModal';
 
@@ -16,18 +16,13 @@ function ArticleDetails() {
                 if(cached != null)
                     setArticle(cached);
                 else{
-                    const response = await fetch(`${API_URL}/${id}`);
-                    if(response.ok) {
-                        const json = await response.json();
-                        setArticle(json)
-                        cached = article;
-                    } else {
-                        throw response;
-                    }
+                    const data = await fetchArticle(id);
+                    setArticle(data);
+                    cached = article;
                 }
 
             } catch(e) {
-                console.log("An error occurred: ", e);
+                console.error("An error occurred: ", e);
             } 
         };
         fetchCurrentArticle();
