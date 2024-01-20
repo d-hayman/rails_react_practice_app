@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { API_URL } from "../../constants";
+import { fetchArticle, updateArticle } from "../../shared/services/articles.service";
+import { Article } from "../../shared/models/article.model";
 
 let cached: any = null;
 
 function EditArticleForm() {
-    const [article, setArticle] = useState<any>(null);
+    const [article, setArticle] = useState<Article|null>(null);
     const { id } = useParams();
     const [, setLoading] = useState(true);
     const [,setError] = useState<any>(null);
@@ -17,18 +18,13 @@ function EditArticleForm() {
                 if(cached != null) {
                     // do nothing;
                 } else {
-                    const response = await fetch(`${API_URL}/${id}`);
-                    if(response.ok) {
-                        const json = await response.json();
-                        setArticle(json)
-                        cached = article;
-                    } else {
-                        throw response;
-                    }
+                   const json = await fetchArticle(id);
+                    setArticle(Article.buildArticleData(json));
+                    cached = article; 
                 }
 
             } catch(e) {
-                console.log("An error occurred: ", e);
+                console.error("An error occurred: ", e);
                 setError(e);
             } finally {
                 setLoading(false);
@@ -40,20 +36,11 @@ function EditArticleForm() {
     const handleSubmit =async (e:any) => {
         e.preventDefault();
         
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Q7XH3tcrzJNnRObZVEY3tg"
-            },
-            body: JSON.stringify(article),
-        });
-
-        if (response.ok) {
-            const { id } = await response.json();
-            navigate(`/article/${id}`);
-        } else {
-            console.log("An error occurred");
+        try {
+            const response = await updateArticle(id, article);
+            navigate(`/article/${response.id}`);
+        } catch (e) {
+            console.error("Failed to update post: ", e);
         }
     }
 

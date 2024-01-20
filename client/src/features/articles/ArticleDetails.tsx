@@ -13,7 +13,7 @@ function ArticleDetails() {
     useEffect(() => {
         const fetchCurrentArticle = async () => {
             try {
-                if(cached != null)
+                if(cached != null && cached.id === id)
                     setArticle(cached);
                 else{
                     const data = await fetchArticle(id);
@@ -31,6 +31,13 @@ function ArticleDetails() {
     if(!article) return <h2>Loading...</h2>
 
     return <div>
+        <Link to={`/article/${article.previous.id}`} className='article-previous'>
+            {article.previous.title}
+        </Link>
+        <Link to={`/article/${article.next.id}`} className='article-next'>
+            {article.next.title}
+        </Link>
+        <br/>
         <h1>{article?.title}</h1>
 
         <p>{article?.body}</p>

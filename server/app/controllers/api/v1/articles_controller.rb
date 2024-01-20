@@ -10,7 +10,12 @@ module Api
       def show
         @article = Article.find(params[:id])
 
-        render json: @article
+        nextArticle = @article.next || OpenStruct.new(id:"",title:"")
+        prevArticle = @article.previous || OpenStruct.new(id:"",title:"")
+
+        render json: @article.as_json.merge(
+          previous:{"id":prevArticle.id, "title":prevArticle.title},
+          next:{"id":nextArticle.id, "title":nextArticle.title})
       end
 
       def create

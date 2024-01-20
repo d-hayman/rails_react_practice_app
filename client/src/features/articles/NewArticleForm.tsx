@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../../constants";
+import { createArticle } from "../../shared/services/articles.service";
+import { Article } from "../../shared/models/article.model";
 
 function NewArticleForm() {
     const [title, setTitle] = useState("");
@@ -13,31 +14,21 @@ function NewArticleForm() {
     const handleSubmit =async (e:any) => {
         e.preventDefault();
 
-        const postData = {
-            article: {
-                title: title,
-                body: body,
-                notes: notes,
-                links: links,
-                status: "public"
-            }
-        }
+        const articleData: Article = {
+            title: title,
+            body: body,
+            notes: notes,
+            links: links,
+            status: "public"
+        };
         
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Q7XH3tcrzJNnRObZVEY3tg"
-            },
-            body: JSON.stringify(postData),
-        });
-
-        if (response.ok) {
-            const { id } = await response.json();
-            navigate(`/article/${id}`);
-        } else {
-            console.log("An error occurred");
+        try {
+            const response = await createArticle(articleData);
+            navigate(`/article/${response.id}`);
+        } catch(e){
+            console.error("Failed to create post: ",e);
         }
+            
     }
 
     return (
