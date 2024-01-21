@@ -1,6 +1,8 @@
 import { describe } from "node:test";
 import NavBar from "./NavBar";
 import { createRoot } from "react-dom/client";
+import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from "react-router-dom";
 
 let container : any;
 
@@ -17,6 +19,8 @@ afterEach(() => {
 describe('can render and update a counter', () => {
   // Test first render and componentDidMount
   test("render the nav bar", () => {
-    createRoot(container).render(<NavBar />);
+    render(<NavBar />, {wrapper: MemoryRouter});
+
+    expect(screen.getByText("Posts List")).toBeInTheDocument();
   });
 });

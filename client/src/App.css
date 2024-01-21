@@ -48,3 +48,7 @@
 .article-next {
   float: right;
 }
+
+.details-section {
+  white-space-collapse: preserve-breaks;
+}

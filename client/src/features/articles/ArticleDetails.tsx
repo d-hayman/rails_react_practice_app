@@ -40,10 +40,10 @@ function ArticleDetails() {
         <br/>
         <h1>{article?.title}</h1>
 
-        <p>{article?.body}</p>
+        <p className='details-section'>{article?.body}</p>
 
         <h2>Notes</h2>
-        <p>{article?.notes}</p>
+        <p className='details-section'>{article?.notes}</p>
 
         <h2>Links</h2>
         <ul>
