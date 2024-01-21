@@ -1,5 +1,5 @@
 // API_URL comes from env
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchAllArticles } from '../../shared/services/articles.service';
 import { Link } from 'react-router-dom';
 import  DeletionModal from '../../components/DeletionModal';
