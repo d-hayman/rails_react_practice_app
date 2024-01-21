@@ -1,7 +1,7 @@
-import { describe } from "node:test";
-import NavBar from "./NavBar";
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from "react-router-dom";
+import { describe } from "node:test";
+import NavBar from "./NavBar";
 
 describe('NavBar component', () => {
   const renderNavBar = () => {
