@@ -25,6 +25,7 @@ function ArticlesList(){
         } catch(e) {
             setError(e);
             setLoading(false);
+            console.error("Failed to fetch articles: ", e);
         }
     }
     useEffect(() =>{
@@ -44,7 +45,7 @@ function ArticlesList(){
                 <div className='post-links'>
                     <Link to={`/article/${article.id}/edit`}>Edit</Link>
                     {" | "}
-                    <DeletionModal article={article} callback={()=>{cached=[]}}/>
+                    <DeletionModal article={article} callback={()=>{cached = articles.filter((_article) => _article.id !== article.id); setArticles(cached)}}/>
                 </div>
             </div>
         ))}

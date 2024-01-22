@@ -35,9 +35,9 @@ jest.mock("../features/articles/EditArticleForm", () =>{
     return MockArticleDetails;
 });
 
-jest.mock("../constants", () => {{
+jest.mock("../constants", () => ({
     API_URL: "http://your-test-url"
-}});
+}));
 
 describe("AppRoutes component", () => {
 

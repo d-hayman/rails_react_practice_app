@@ -22,7 +22,7 @@ function ArticleDetails() {
                 }
 
             } catch(e) {
-                console.error("An error occurred: ", e);
+                console.error("Failed to fetch article: ", e);
             } 
         };
         fetchCurrentArticle();
@@ -31,11 +31,11 @@ function ArticleDetails() {
     if(!article) return <h2>Loading...</h2>
 
     return <div>
-        <Link to={`/article/${article.previous.id}`} className='article-previous'>
-            {article.previous.title}
+        <Link to={`/article/${article.previous?.id}`} className='article-previous'>
+            {article.previous?.title}
         </Link>
-        <Link to={`/article/${article.next.id}`} className='article-next'>
-            {article.next.title}
+        <Link to={`/article/${article.next?.id}`} className='article-next'>
+            {article.next?.title}
         </Link>
         <br/>
         <h1>{article?.title}</h1>
