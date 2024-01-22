@@ -25,3 +25,6 @@ dist-ssr
 
 .env
 .env.development
+
+# Coverage directory is all generated at runtime
+coverage
