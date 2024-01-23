@@ -24,7 +24,7 @@ function EditArticleForm() {
                 }
 
             } catch(e) {
-                console.error("An error occurred: ", e);
+                console.error("Failed to fetch the article: ", e);
                 setError(e);
             } finally {
                 setLoading(false);
@@ -40,7 +40,7 @@ function EditArticleForm() {
             const response = await updateArticle(id, article);
             navigate(`/article/${response.id}`);
         } catch (e) {
-            console.error("Failed to update post: ", e);
+            console.error("Failed to update the article: ", e);
         }
     }
 
