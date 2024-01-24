@@ -13,12 +13,12 @@ async function fetchAllArticles() {
 
 async function fetchArticle(id:string|undefined) {
     if(id === undefined){
-        console.log("Tried to get article without ID?");
+        console.error("Tried to get article without ID?");
         return;
     }
 
     if(id === ''){
-        console.log("Tried to get article without ID?");
+        console.error("Tried to get article without ID?");
         return;
     }
 
@@ -49,17 +49,17 @@ async function createArticle(articleData:Article) {
 
 async function updateArticle(id:string|undefined, articleData:Article|null) {
     if(id === undefined){
-        console.log("Tried to get article without ID?");
+        console.error("Tried to update article without ID?");
         return;
     }
     
     if(id === ''){
-        console.log("Tried to update article without ID?");
+        console.error("Tried to update article without ID?");
         return;
     }
 
-    if(articleData === null){
-        console.log("Tried to update article with null data?");
+    if(articleData === null || articleData == undefined){
+        console.error("Tried to update article with null or undefined data?");
         return;
     }
 
@@ -85,15 +85,11 @@ async function deleteArticle(id:string) {
         method: "DELETE"
     });
 
-    if (!response.ok) {
-        throw new Error(response.statusText);
-    }
-
     if(response.status === 204) {
         return null;
     }
 
-    return response.json();
+    throw new Error(response.statusText);
 }
 
 export {fetchAllArticles, fetchArticle, createArticle, updateArticle, deleteArticle};
