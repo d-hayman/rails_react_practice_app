@@ -1,6 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { describe } from "node:test";
 import ArticleDetails from './ArticleDetails';
 import * as articlesService from "../../shared/services/articles.service";
 import { Article } from '../../shared/models/article.model';
