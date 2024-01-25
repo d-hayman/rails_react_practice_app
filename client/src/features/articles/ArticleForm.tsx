@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { createArticle } from "../../shared/services/articles.service";
 import { Article } from "../../shared/models/article.model";
 
 function ArticleForm({ article=null, headerText, buttonText, onSubmit }
@@ -14,7 +12,6 @@ function ArticleForm({ article=null, headerText, buttonText, onSubmit }
             status: "public"
         }
     );
-    const navigate = useNavigate();
 
     const handleSubmit =async (e:any) => {
         e.preventDefault();
