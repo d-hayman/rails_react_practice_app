@@ -93,7 +93,7 @@ describe("EditArticleForm", () => {
         });
 
         await act(async () => {
-            fireEvent.click(screen.getByText(/Save/i));
+            fireEvent.click(screen.getByText(/Update Article/i));
         });
 
         await waitFor(() => {
@@ -114,7 +114,7 @@ describe("EditArticleForm", () => {
         renderForm();
 
         await waitFor(() => {
-            fireEvent.click(screen.getByText(/Save/i));
+            fireEvent.click(screen.getByText(/Update Article/i));
         });
 
         await waitFor(() => {

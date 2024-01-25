@@ -25,7 +25,9 @@ function DeletionModal({ article, callback }: { article: any, callback:any }) {
             return;
         try {
             await deleteArticle(article.id);
-            callback();
+            if(typeof callback === "function") {
+                callback();
+            }
         } catch (e) {
             console.error("Failed to delete the article: ", e);
         }
