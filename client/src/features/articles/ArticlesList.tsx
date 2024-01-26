@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { fetchAllArticles } from '../../shared/services/articles.service';
 import { Link } from 'react-router-dom';
 import  DeletionModal from '../../components/DeletionModal';
+import styles from '../../assets/styles/ArticleList.module.css';
+import noImage from '../../assets/img/imagenotfound.png';
 
 let cached:any[] = [];
 
@@ -41,6 +43,8 @@ function ArticlesList(){
                         {article.title}
                     </Link>
                 </h2>
+                        <img src={article.image_url ?? noImage} alt={article.title} className={styles.article_image} />
+                
                 <p>{article.created_at}</p>
                 <div className='post-links'>
                     <Link to={`/article/${article.id}/edit`}>Edit</Link>
