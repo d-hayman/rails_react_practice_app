@@ -26,6 +26,7 @@ class Article {
      * Status: must be public, private, or archived
      */
     status:string = '';
+    image?: File | undefined | null;
 
     /**
      * 

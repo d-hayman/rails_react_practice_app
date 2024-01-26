@@ -96,7 +96,8 @@ describe("ArticleForm component", () => {
             body: "Test Body",
             notes: "Test Notes",
             links: "http://www.google.com",
-            status: "public"
+            status: "public",
+            image: null
         };
         const mockSubmit = jest.fn();
         const headerText = "Hi";

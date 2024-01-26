@@ -31,13 +31,13 @@ async function fetchArticle(id:string|undefined) {
     return response.json();
 }
 
-async function createArticle(articleData:Article) {
+async function createArticle(articleData:FormData) {
     const response = await fetch(`${API_URL}/articles`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+            
         },
-        body: JSON.stringify({article:articleData}),
+        body: articleData,
     });
 
     if (!response.ok) {

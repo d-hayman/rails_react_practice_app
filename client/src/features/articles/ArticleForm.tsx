@@ -9,6 +9,7 @@ function ArticleForm({ article=null, headerText, buttonText, onSubmit }
             body: "",
             notes: "",
             links: "",
+            image: null,
             status: "public"
         }
     );
@@ -36,6 +37,21 @@ function ArticleForm({ article=null, headerText, buttonText, onSubmit }
                             title: e.target.value})
                         } 
                         required 
+                    />
+                </div>
+                <div>
+                    <label htmlFor="image">Image:</label>
+                    <input 
+                        id="image"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                            setFormData({
+                                ...formData,
+                                image: e.target.files?.[0]
+                            });
+                            console.log(e.target.files?.[0]);
+                        }}
                     />
                 </div>
                 <div>
