@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchArticle, updateArticle } from "../../shared/services/articles.service";
 import { Article } from "../../shared/models/article.model";
 import ArticleForm from "./ArticleForm";
+import { objectToFormData } from "../../shared/utils/formDataHelper";
 
 let cached: any = null;
 
@@ -28,8 +29,10 @@ function EditArticleForm() {
         fetchCurrentArticle();
     }, [id]);
 
-    const handleUpdateSubmit =async (formData:Article) => {
+    const handleUpdateSubmit =async (rawData:Article) => {
         try {
+            delete(rawData.id);
+            const formData = objectToFormData({article: rawData})
             await updateArticle(id, formData);
             navigate(`/article/${id}`);
         } catch (e) {

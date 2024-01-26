@@ -38,13 +38,12 @@ function ArticlesList(){
     return <div>
         {articles.map((article:any) => (
             <div key={article.id} className='article-container'>
-                <h2>
-                    <Link to={`/article/${article.id}`} className='article-title'>
+                <Link to={`/article/${article.id}`} className='article-title'>
+                    <h2>
                         {article.title}
-                    </Link>
-                </h2>
-                        <img src={article.image_url ?? noImage} alt={article.title} className={styles.article_image} />
-                
+                    </h2>
+                    <img src={article.image_url ?? noImage} alt={article.title} className={styles.article_image} />
+                </Link>
                 <p>{article.created_at}</p>
                 <div className='post-links'>
                     <Link to={`/article/${article.id}/edit`}>Edit</Link>

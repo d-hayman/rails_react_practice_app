@@ -47,7 +47,7 @@ async function createArticle(articleData:FormData) {
     return response.json();
 }
 
-async function updateArticle(id:string|undefined, articleData:Article|null) {
+async function updateArticle(id:string|undefined, articleData:FormData) {
     if(id === undefined){
         console.error("Tried to update article without ID?");
         return;
@@ -62,15 +62,13 @@ async function updateArticle(id:string|undefined, articleData:Article|null) {
         console.error("Tried to update article with null or undefined data?");
         return;
     }
-
-    delete(articleData.id);
     
     const response = await fetch(`${API_URL}/articles/${id}`, {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json",
+            
         },
-        body: JSON.stringify({article:articleData}),
+        body: articleData,
     });
 
     if (!response.ok) {
