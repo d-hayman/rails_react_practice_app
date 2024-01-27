@@ -22,6 +22,15 @@ function ArticleForm({ article=null, headerText, buttonText, onSubmit }
         }
     }
 
+    
+    window.addEventListener('paste', e => {
+        const fileInput = (document.getElementById("image") as HTMLInputElement);
+        if(e.clipboardData !== null && e.clipboardData.files.length > 0){
+            fileInput.files = e.clipboardData.files;
+            setFormData({...formData, image: e.clipboardData.files[0]})
+        }
+      });
+
     return (
         <div>
             <h1>{headerText}</h1>
