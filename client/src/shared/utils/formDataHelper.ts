@@ -3,6 +3,7 @@
  * @param obj 
  * @param namespace 
  * @param formData 
+ * @returns 
  */
 export function objectToFormData(
     obj: any,
@@ -16,6 +17,19 @@ export function objectToFormData(
         }
     }
     return formData;
+}
+
+/**
+ * 
+ * @param formData 
+ * @returns 
+ */
+export function formDataToObject(formData: FormData): any {
+    const obj:any = {};
+    for (let key of formData.keys()) {
+        obj[key] = formData.get(key);
+    }
+    return obj;
 }
 
 /**
