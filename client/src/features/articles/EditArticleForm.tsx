@@ -5,8 +5,6 @@ import { Article } from "../../shared/models/article.model";
 import ArticleForm from "./ArticleForm";
 import { objectToFormData } from "../../shared/utils/formDataHelper";
 
-let cached: any = null;
-
 function EditArticleForm() {
     const [article, setArticle] = useState<Article|null>(null);
     const { id } = useParams();
@@ -15,13 +13,8 @@ function EditArticleForm() {
     useEffect(() => {
         const fetchCurrentArticle = async () => {
             try {
-                if(cached != null) {
-                    // do nothing;
-                } else {
-                   const json = await fetchArticle(id);
-                    setArticle(Article.buildArticleData(json));
-                    cached = article; 
-                }
+                const json = await fetchArticle(id);
+                setArticle(Article.buildArticleData(json));
             } catch(e) {
                 console.error("Failed to fetch the article: ", e);
             }

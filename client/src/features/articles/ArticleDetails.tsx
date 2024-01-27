@@ -5,8 +5,6 @@ import  DeletionModal from '../../components/DeletionModal';
 import styles from '../../assets/styles/ArticleDetails.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
 
-let cached: any = null;
-
 function ArticleDetails() {
     const [article, setArticle] = useState<any>(null);
     const { id } = useParams();
@@ -15,14 +13,8 @@ function ArticleDetails() {
     useEffect(() => {
         const fetchCurrentArticle = async () => {
             try {
-                if(cached != null && cached.id === id)
-                    setArticle(cached);
-                else{
-                    const data = await fetchArticle(id);
-                    setArticle(data);
-                    cached = article;
-                }
-
+                const data = await fetchArticle(id);
+                setArticle(data);
             } catch(e) {
                 console.error("Failed to fetch article: ", e);
             } 

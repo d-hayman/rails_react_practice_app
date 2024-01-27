@@ -6,8 +6,6 @@ import  DeletionModal from '../../components/DeletionModal';
 import styles from '../../assets/styles/ArticleList.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
 
-let cached:any[] = [];
-
 function ArticlesList(){
     const [articles, setArticles] = useState<any[]>([]);
     const [, setLoading] = useState(true);
@@ -15,13 +13,9 @@ function ArticlesList(){
     //fetch articles
     const loadArticles = async() => {
         try {
-            if (cached.length > 0)
-                setArticles(cached);
-            else
             {
                 const data = await fetchAllArticles();
                 setArticles(data);
-                cached = articles;
                 setLoading(false);
             }
         } catch(e) {
@@ -33,7 +27,7 @@ function ArticlesList(){
     useEffect(() =>{
        
         loadArticles();
-    })
+    }, [])
 
     return <div>
         {articles.map((article:any) => (
@@ -48,7 +42,7 @@ function ArticlesList(){
                 <div className='post-links'>
                     <Link to={`/article/${article.id}/edit`}>Edit</Link>
                     {" | "}
-                    <DeletionModal article={article} callback={()=>{cached = articles.filter((_article) => _article.id !== article.id); setArticles(cached)}}/>
+                    <DeletionModal article={article} callback={()=>{setArticles(articles.filter((_article) => _article.id !== article.id));}}/>
                 </div>
             </div>
         ))}
