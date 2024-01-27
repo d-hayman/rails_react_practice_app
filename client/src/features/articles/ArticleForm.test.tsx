@@ -163,4 +163,28 @@ describe("ArticleForm component", () => {
         expect(mockSubmit).not.toHaveBeenCalled();
     });
 
+    it("handles image file upload", () => {
+        const mockSubmit = jest.fn();
+        const headerText = "Hi";
+        const buttonText = "Bye";
+
+        const consoleSpy = jest.spyOn(console, "log");
+        consoleSpy.mockImplementation(() => {});
+
+        const {getByLabelText} = render(
+            <ArticleForm 
+                onSubmit={undefined} 
+                headerText={headerText} 
+                buttonText={buttonText} 
+            />
+        );
+
+        const file = new File(["sample"], "sample.png", { type: "image/png" });
+        const imageInput = getByLabelText(/image/i) as HTMLInputElement;
+
+        fireEvent.change(imageInput, { target: { files: [file]}});
+
+        expect(consoleSpy).toHaveBeenCalledWith(file);
+    });
+
 });

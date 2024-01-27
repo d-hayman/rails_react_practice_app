@@ -66,3 +66,46 @@ describe("ArticlesList component", () => {
         expect(screen.queryByText(articleText)).not.toBeInTheDocument();
     }); 
 });
+
+describe("ArticlesList component image_url rendering", () => {
+    const mockArticleWithImage = {
+        id: 1,
+        title: "Article 1",
+        body: "Hello World",
+        image_url: "https://via.placeholder.com/150"
+    };
+
+    const mockArticleWithoutImage = {
+        id: 2,
+        title: "Article 2",
+        body: "Hello World",
+        image_url: null
+    };
+    
+    test("renders the image with image_url", async () => {
+        (articlesService.fetchAllArticles as jest.Mock).mockResolvedValue([mockArticleWithImage]);
+
+        render(<ArticlesList/>, {wrapper: MemoryRouter});
+
+        await waitFor(() => screen.getByText(mockArticleWithImage.title));
+
+        const imgElement: HTMLImageElement = screen.getByAltText(mockArticleWithImage.title);
+        expect(imgElement).toBeInTheDocument();
+        expect(imgElement.src).toBe(mockArticleWithImage.image_url);
+    });
+    
+    test("renders the placeholder image without image_url", async () => {
+        (articlesService.fetchAllArticles as jest.Mock).mockResolvedValue([mockArticleWithoutImage]);
+
+        render(<ArticlesList/>, {wrapper: MemoryRouter});
+
+        await waitFor(() => screen.getByText(mockArticleWithoutImage.title));
+
+        const imgElement: HTMLImageElement = screen.getByAltText(mockArticleWithoutImage.title);
+        expect(imgElement).toBeInTheDocument();
+
+        // this seems to be what you would find when passing an imported object for image source
+        expect(imgElement.src).toContain("[object");
+        expect(imgElement.src).toContain("Object]");
+    });
+});

@@ -5,6 +5,7 @@ import { act } from 'react-dom/test-utils';
 import EditArticleForm from './EditArticleForm';
 import { fetchArticle, updateArticle } from '../../shared/services/articles.service';
 import { Article } from '../../shared/models/article.model';
+import { objectToFormData } from '../../shared/utils/formDataHelper';
 
 jest.mock("../../shared/services/articles.service", () => ({
     fetchArticle: jest.fn(),
@@ -67,13 +68,15 @@ describe("EditArticleForm", () => {
         });
 
         const newArticle: Article = {
-            id: "1",
             title: "Test Titles",
             body: "Test Body changed",
             notes: "Test Notes changed as well",
             links: "https://www.google.com",
-            status: "public"
+            status: "public",
+            image: null
         };
+
+        const formData = objectToFormData({article: newArticle});
 
         fireEvent.change(screen.getByLabelText(/Title:/i), {
             target: {value: newArticle.title}
@@ -97,7 +100,7 @@ describe("EditArticleForm", () => {
 
         await waitFor(() => {
             expect(updateArticle).toHaveBeenCalledTimes(1);
-            expect(updateArticle).toHaveBeenCalledWith("1", newArticle);
+            expect(updateArticle).toHaveBeenCalledWith("1", formData);
         });
 
         expect(screen.getByText(/Article Details/i)).toBeInTheDocument();
