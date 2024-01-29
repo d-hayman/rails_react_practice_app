@@ -1,35 +1,47 @@
 // API_URL comes from env
 import { useState, useEffect } from 'react';
-import { fetchAllArticles } from '../../shared/services/articles.service';
 import { Link } from 'react-router-dom';
 import  DeletionModal from '../../components/DeletionModal';
+import SearchBar from '../../components/SearchBar';
+import useURLSearchParam from '../../shared/hooks/useURLSearchParam';
+import useArticlesData from '../../shared/hooks/useArticlesData';
 import styles from '../../assets/styles/ArticleList.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
 
 function ArticlesList(){
     const [articles, setArticles] = useState<any[]>([]);
-    const [, setLoading] = useState(true);
-    const [,setError] = useState<any>(null);
-    //fetch articles
-    const loadArticles = async() => {
-        try {
-            {
-                const data = await fetchAllArticles();
-                setArticles(data);
-                setLoading(false);
-            }
-        } catch(e) {
-            setError(e);
-            setLoading(false);
-            console.error("Failed to fetch articles: ", e);
-        }
-    }
+    const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = 
+        useURLSearchParam("search");
+    
+    const {
+        articles: fetchedArticles,
+        loading,
+        error
+    } = useArticlesData(debouncedSearchTerm);
+        
     useEffect(() =>{
-       
-        loadArticles();
-    }, [])
+        if (fetchedArticles) {
+            setArticles(fetchedArticles);
+        }
+    }, [fetchedArticles]);
+
+    const handleImmediateSearchChange = (searchValue: string) => {
+        setSearchTerm(searchValue)
+    }
+
+    const handleDebouncedSearchChange = (searchValue: string) => {
+        setDebouncedSearchTerm(searchValue);
+    }
 
     return <div>
+        <SearchBar 
+            value={searchTerm}
+            onSearchChange={handleDebouncedSearchChange}
+            onImmediateChange={handleImmediateSearchChange}
+        />
+        {loading && <p>Loading... </p>}
+        {error && <p>Error loading posts.</p>}
         {articles.map((article:any) => (
             <div key={article.id} className='article-container'>
                 <Link to={`/article/${article.id}`} className='article-title'>

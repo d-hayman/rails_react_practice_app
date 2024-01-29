@@ -1,8 +1,8 @@
-import { API_URL } from "../../constants";
+import { ARTICLES_API_URL, SEARCH_API_URL } from "../../constants";
 import { Article } from "../models/article.model";
 
 async function fetchAllArticles() {
-    const response = await fetch(`${API_URL}/articles`);
+    const response = await fetch(`${ARTICLES_API_URL}`);
 
     if (!response.ok) {
         throw new Error(response.statusText);
@@ -22,7 +22,17 @@ async function fetchArticle(id:string|undefined) {
         return;
     }
 
-    const response = await fetch(`${API_URL}/articles/${id}`);
+    const response = await fetch(`${ARTICLES_API_URL}/${id}`);
+
+    if (!response.ok) {
+        throw new Error(response.statusText);
+    }
+
+    return response.json();
+}
+
+async function searchArticles(query: string) {
+    const response = await fetch(`${SEARCH_API_URL}/articles/?q=${query}`);
 
     if (!response.ok) {
         throw new Error(response.statusText);
@@ -32,7 +42,7 @@ async function fetchArticle(id:string|undefined) {
 }
 
 async function createArticle(articleData:FormData) {
-    const response = await fetch(`${API_URL}/articles`, {
+    const response = await fetch(`${ARTICLES_API_URL}`, {
         method: "POST",
         headers: {
             
@@ -63,7 +73,7 @@ async function updateArticle(id:string|undefined, articleData:FormData) {
         return;
     }
     
-    const response = await fetch(`${API_URL}/articles/${id}`, {
+    const response = await fetch(`${ARTICLES_API_URL}/${id}`, {
         method: "PUT",
         headers: {
             
@@ -79,7 +89,7 @@ async function updateArticle(id:string|undefined, articleData:FormData) {
 }
 
 async function deleteArticle(id:string) {
-    const response = await fetch(`${API_URL}/articles/${id}`, {
+    const response = await fetch(`${ARTICLES_API_URL}/${id}`, {
         method: "DELETE"
     });
 
@@ -90,4 +100,4 @@ async function deleteArticle(id:string) {
     throw new Error(response.statusText);
 }
 
-export {fetchAllArticles, fetchArticle, createArticle, updateArticle, deleteArticle};
+export {fetchAllArticles, fetchArticle, searchArticles, createArticle, updateArticle, deleteArticle};
