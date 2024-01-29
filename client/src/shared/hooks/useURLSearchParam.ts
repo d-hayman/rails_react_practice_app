@@ -9,7 +9,7 @@ function useURLSearchParam(paramName: string, initialValue: string = "")
 
     useEffect(() => {
         const newURL = paramValue
-            ? `${window.location.pathname}?${paramName}=${paramValue}`
+            ? `${window.location.pathname}?${paramName}=${encodeURI(paramValue)}`
             : window.location.pathname;
 
         window.history.pushState({}, "", newURL);

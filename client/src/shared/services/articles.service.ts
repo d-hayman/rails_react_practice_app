@@ -32,7 +32,7 @@ async function fetchArticle(id:string|undefined) {
 }
 
 async function searchArticles(query: string) {
-    const response = await fetch(`${SEARCH_API_URL}/articles/?q=${query}`);
+    const response = await fetch(`${SEARCH_API_URL}/articles/?q=${encodeURI(query)}`);
 
     if (!response.ok) {
         throw new Error(response.statusText);
