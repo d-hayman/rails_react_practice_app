@@ -77,7 +77,7 @@ function Pagination({ currentPage, totalArticles, articlesPerPage, onPageChange 
                 )
             )}
 
-            <button onClick={handleNext} disabled={currentPage === totalArticles || totalArticles === 0}>
+            <button onClick={handleNext} disabled={currentPage === totalPages || totalArticles === 0}>
                 Next
             </button>
         </div>
