@@ -1,7 +1,7 @@
 import { ARTICLES_API_URL, SEARCH_API_URL } from "../../constants";
 import { Article } from "../models/article.model";
 
-async function fetchAllArticles() {
+async function fetchAllArticles(page:number = 1) {
     const response = await fetch(`${ARTICLES_API_URL}`);
 
     if (!response.ok) {
@@ -31,7 +31,7 @@ async function fetchArticle(id:string|undefined) {
     return response.json();
 }
 
-async function searchArticles(query: string) {
+async function searchArticles(query: string, page:number = 1) {
     const response = await fetch(`${SEARCH_API_URL}/articles/?q=${encodeURI(query)}`);
 
     if (!response.ok) {

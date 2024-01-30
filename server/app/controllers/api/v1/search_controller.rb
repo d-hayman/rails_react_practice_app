@@ -1,15 +1,15 @@
 class Api::V1::SearchController < ApplicationController
   def articles
+    articles_per_page = 10
     @articles = Article.search_term(params[:q])
 
-    articles_with_images = @articles.map do |article|
-      if article.image.attached?
-        article.as_json.merge(image_url: url_for(article.image))
-      else
-        article.as_json.merge(image_url: nil)
-      end
-    end
+    articles_with_images = paginate_articles(@articles, articles_per_page)
+    total_articles_count = @articles.count
 
-    render json: articles_with_images
+    render json: {
+      articles: articles_with_images,
+      total_count: total_articles_count,
+      per_page: articles_per_page
+    }
   end
 end

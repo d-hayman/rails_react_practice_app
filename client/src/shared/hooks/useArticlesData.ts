@@ -1,21 +1,27 @@
 import { useState, useEffect } from "react";
 import { fetchAllArticles, searchArticles } from "../services/articles.service";
 
-function useArticlesData(searchTerm: string) {
+function useArticlesData(searchTerm: string, page:number = 1) {
     const [articles, setArticles] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error,setError] = useState<any>(null);
+    const [totalArticles, setTotalArticles] = useState(0);
+    const [perPage, setPerPage] = useState(10);
 
     useEffect(() => {
         async function loadArticles() {
             try {
                 let data;
                 if (searchTerm) {
-                    data = await searchArticles(searchTerm);
+                    data = await searchArticles(searchTerm, page);
                 } else {
-                    data = await fetchAllArticles();
+                    data = await fetchAllArticles(page);
                 }
-                setArticles(data);
+                if(data.articles) {
+                    setArticles(data.articles);
+                    setTotalArticles(data.total_count);
+                    setPerPage(data.perPage);
+                }
                 setLoading(false);
             } catch(e) {
                 setError(e);
@@ -27,7 +33,7 @@ function useArticlesData(searchTerm: string) {
         loadArticles();
     }, [searchTerm])
 
-    return { articles, loading, error };
+    return { articles, loading, error, totalArticles, perPage };
 }
 
 export default useArticlesData;
