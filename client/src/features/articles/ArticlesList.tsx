@@ -86,6 +86,12 @@ URLSearchParams
                 </div>
             </div>
         ))}
+        <Pagination 
+            currentPage={currentPage}
+            totalArticles={totalArticles}
+            articlesPerPage={perPage}
+            onPageChange={handlePageChange}
+        />
     </div>
 }
 

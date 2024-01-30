@@ -34,10 +34,10 @@ describe("ArticlesList component with nothing loaded yet", () => {
 });
 
 describe("ArticlesList component", () => {
-    const mockArticles = [
+    const mockArticles = {articles:[
         {id: 1, title: "Article 1"},
         {id: 2, title: "Article 2"},
-    ];
+    ]};
 
     beforeEach(() => {
         (articlesService.fetchAllArticles as jest.Mock).mockResolvedValue(mockArticles);
@@ -83,7 +83,7 @@ describe("ArticlesList component image_url rendering", () => {
     };
     
     test("renders the image with image_url", async () => {
-        (articlesService.fetchAllArticles as jest.Mock).mockResolvedValue([mockArticleWithImage]);
+        (articlesService.fetchAllArticles as jest.Mock).mockResolvedValue({articles:[mockArticleWithImage]});
 
         render(<ArticlesList/>, {wrapper: MemoryRouter});
 
@@ -95,7 +95,7 @@ describe("ArticlesList component image_url rendering", () => {
     });
     
     test("renders the placeholder image without image_url", async () => {
-        (articlesService.fetchAllArticles as jest.Mock).mockResolvedValue([mockArticleWithoutImage]);
+        (articlesService.fetchAllArticles as jest.Mock).mockResolvedValue({articles:[mockArticleWithoutImage]});
 
         render(<ArticlesList/>, {wrapper: MemoryRouter});
 
