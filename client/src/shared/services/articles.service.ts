@@ -2,7 +2,7 @@ import { ARTICLES_API_URL, SEARCH_API_URL } from "../../constants";
 import { Article } from "../models/article.model";
 
 async function fetchAllArticles(page:number = 1) {
-    const response = await fetch(`${ARTICLES_API_URL}`);
+    const response = await fetch(`${ARTICLES_API_URL}?page=${page}`);
 
     if (!response.ok) {
         throw new Error(response.statusText);
@@ -32,7 +32,7 @@ async function fetchArticle(id:string|undefined) {
 }
 
 async function searchArticles(query: string, page:number = 1) {
-    const response = await fetch(`${SEARCH_API_URL}/articles/?q=${encodeURI(query)}`);
+    const response = await fetch(`${SEARCH_API_URL}/articles/?q=${encodeURI(query)}&page=${page}`);
 
     if (!response.ok) {
         throw new Error(response.statusText);

@@ -20,7 +20,7 @@ function useArticlesData(searchTerm: string, page:number = 1) {
                 if(data.articles) {
                     setArticles(data.articles);
                     setTotalArticles(data.total_count);
-                    setPerPage(data.perPage);
+                    setPerPage(data.per_page);
                 }
                 setLoading(false);
             } catch(e) {
@@ -31,7 +31,7 @@ function useArticlesData(searchTerm: string, page:number = 1) {
         }
 
         loadArticles();
-    }, [searchTerm])
+    }, [searchTerm, page])
 
     return { articles, loading, error, totalArticles, perPage };
 }

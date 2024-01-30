@@ -1,30 +1,46 @@
 // API_URL comes from env
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import  DeletionModal from '../../components/DeletionModal';
 import SearchBar from '../../components/SearchBar';
 import useURLSearchParam from '../../shared/hooks/useURLSearchParam';
 import useArticlesData from '../../shared/hooks/useArticlesData';
 import styles from '../../assets/styles/ArticleList.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
+import Pagination from '../../components/Pagination';
 
 function ArticlesList(){
-    const [articles, setArticles] = useState<any[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedSearchTerm, setDebouncedSearchTerm] = 
         useURLSearchParam("search");
+URLSearchParams
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const initialPageFromURL = Number(searchParams.get("page") || 1);
+    const [currentPage, setCurrentPage] = useState(initialPageFromURL);
     
+    const [articles, setArticles] = useState<any[]>([]);
     const {
         articles: fetchedArticles,
         loading,
-        error
-    } = useArticlesData(debouncedSearchTerm);
+        error,
+        totalArticles,
+        perPage
+    } = useArticlesData(debouncedSearchTerm, currentPage);
         
     useEffect(() =>{
         if (fetchedArticles) {
             setArticles(fetchedArticles);
         }
     }, [fetchedArticles]);
+
+    useEffect(() => {
+        const initialSearchTerm = searchParams.get("search") || "";
+        setSearchTerm(initialSearchTerm);
+
+        const pageFromURL = searchParams.get("page") || "1";
+        setCurrentPage(Number(pageFromURL));
+    }, [searchParams]);
 
     const handleImmediateSearchChange = (searchValue: string) => {
         setSearchTerm(searchValue)
@@ -34,11 +50,23 @@ function ArticlesList(){
         setDebouncedSearchTerm(searchValue);
     }
 
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+
+        setSearchParams({search: debouncedSearchTerm, page: page} as unknown as URLSearchParams)
+    }
+
     return <div>
         <SearchBar 
             value={searchTerm}
             onSearchChange={handleDebouncedSearchChange}
             onImmediateChange={handleImmediateSearchChange}
+        />
+        <Pagination 
+            currentPage={currentPage}
+            totalArticles={totalArticles}
+            articlesPerPage={perPage}
+            onPageChange={handlePageChange}
         />
         {loading && <p>Loading... </p>}
         {error && <p>Error loading posts.</p>}
