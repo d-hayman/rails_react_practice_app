@@ -7,7 +7,8 @@ import useURLSearchParam from '../../shared/hooks/useURLSearchParam';
 import useArticlesData from '../../shared/hooks/useArticlesData';
 import styles from '../../assets/styles/ArticleList.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
-import Pagination from '../../components/Pagination';
+import Paginator from '../../components/Pagination';
+import { Col, Row } from 'react-bootstrap';
 
 function ArticlesList(){
     const [searchTerm, setSearchTerm] = useState("");
@@ -57,17 +58,23 @@ URLSearchParams
     }
 
     return <div>
-        <SearchBar 
-            value={searchTerm}
-            onSearchChange={handleDebouncedSearchChange}
-            onImmediateChange={handleImmediateSearchChange}
-        />
-        <Pagination 
-            currentPage={currentPage}
-            totalArticles={totalArticles}
-            articlesPerPage={perPage}
-            onPageChange={handlePageChange}
-        />
+        <Row>
+            <Col md={4}>
+                <SearchBar 
+                    value={searchTerm}
+                    onSearchChange={handleDebouncedSearchChange}
+                    onImmediateChange={handleImmediateSearchChange}
+                />
+            </Col>
+            <Col md={8}>
+                <Paginator
+                    currentPage={currentPage}
+                    totalArticles={totalArticles}
+                    articlesPerPage={perPage}
+                    onPageChange={handlePageChange}
+                />
+            </Col>
+        </Row>
         {loading && <p>Loading... </p>}
         {error && <p>Error loading posts.</p>}
         {articles.map((article:any) => (
@@ -86,7 +93,7 @@ URLSearchParams
                 </div>
             </div>
         ))}
-        <Pagination 
+        <Paginator 
             currentPage={currentPage}
             totalArticles={totalArticles}
             articlesPerPage={perPage}

@@ -4,7 +4,7 @@ module Api
       before_action :set_article, only: %i[show update destroy]
 
       def index
-        articles_per_page = 10
+        articles_per_page = 5
         @articles = Article.all
 
         articles_with_images = paginate_articles(@articles, articles_per_page)

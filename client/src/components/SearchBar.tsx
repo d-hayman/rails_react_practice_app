@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import PropTypes, {InferProps} from "prop-types";
+import { Form } from "react-bootstrap";
 
 const searchPropTypes = {
     value: PropTypes.string.isRequired,
@@ -26,14 +27,14 @@ function SearchBar({ value, onSearchChange, onImmediateChange }: searchTypes){
     }
 
     return (
-        <div>
-            <input
+        <Form>
+            <Form.Control
                 type="text"
                 placeholder="Search..."
                 value={value}
                 onChange={handleSearchChange}
             />
-        </div>
+        </Form>
     )
 }
 

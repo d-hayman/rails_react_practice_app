@@ -1,4 +1,5 @@
 import PropTypes, {InferProps} from "prop-types";
+import { Pagination } from "react-bootstrap";
 
 const paginationPropTypes = {
     currentPage: PropTypes.number.isRequired,
@@ -12,8 +13,14 @@ type paginationTypes = InferProps<typeof paginationPropTypes>;
  * 
  * @param param0 
  */
-function Pagination({ currentPage, totalArticles, articlesPerPage, onPageChange }: paginationTypes) {
+function Paginator({ currentPage, totalArticles, articlesPerPage, onPageChange }: paginationTypes) {
     const totalPages = Math.ceil(totalArticles/articlesPerPage);
+
+    const handleFirst = () => {
+        if(currentPage > 1) {
+            onPageChange(1);
+        }
+    }
 
     const handlePrevious = () => {
         if (currentPage > 1) {
@@ -23,6 +30,12 @@ function Pagination({ currentPage, totalArticles, articlesPerPage, onPageChange 
     const handleNext = () => {
         if (currentPage < totalPages) {
             onPageChange(currentPage + 1);
+        }
+    }
+
+    const handleLast = () => {
+        if ( currentPage < totalPages) {
+            onPageChange(totalPages);
         }
     }
 
@@ -56,32 +69,27 @@ function Pagination({ currentPage, totalArticles, articlesPerPage, onPageChange 
     }
 
     return (
-        <div>
-            <button onClick={handlePrevious} disabled={currentPage === 1}>
-                Previous
-            </button>
-
+        <Pagination style={{float:"right"}}>
+            <Pagination.First onClick={handleFirst} disabled={currentPage === 1}/>
+            <Pagination.Prev onClick={handlePrevious} disabled={currentPage === 1} />
             {getVisiblePageNumbers().map((page: any, index: number) => 
                 typeof page === "number" ? (
-                    <button
+                    <Pagination.Item
                         key={page}
                         onClick={() => onPageChange(page)}
-                        disabled={currentPage === page}
+                        active={currentPage === page}
                     >
                         {page}
-                    </button>
+                    </Pagination.Item>
                 ) : (
-                    <span key={`ellipsis-${index}`} style={{margin: "0 5px"}}>
-                        {page}
-                    </span>
+                    <Pagination.Ellipsis/>
                 )
             )}
 
-            <button onClick={handleNext} disabled={currentPage === totalPages || totalArticles === 0}>
-                Next
-            </button>
-        </div>
+            <Pagination.Next onClick={handleNext} disabled={currentPage === totalPages || totalArticles === 0} />
+            <Pagination.Last onClick={handleLast} disabled={currentPage === totalPages || totalArticles === 0} />
+        </Pagination>
     );
 }
 
-export default Pagination;
+export default Paginator;

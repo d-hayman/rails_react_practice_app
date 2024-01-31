@@ -35,7 +35,7 @@ function DeletionModal({ article, callback }: { article: any, callback:any }) {
 
     return (
         <>
-            <button onClick={handleShow}>Delete</button>
+            <Button variant="danger" onClick={handleShow}>Delete</Button>
 
             <Modal
                 show={visible}

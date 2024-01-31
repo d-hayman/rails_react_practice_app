@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Article } from "../../shared/models/article.model";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function ArticleForm({ article=null, headerText, buttonText, onSubmit }
     :{article?:Article|null, headerText:string, buttonText:string, onSubmit:any}) {
@@ -34,11 +36,10 @@ function ArticleForm({ article=null, headerText, buttonText, onSubmit }
     return (
         <div>
             <h1>{headerText}</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="titleInput">Title:</label>
-                    <input 
-                        id="titleInput" 
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="titleInput">
+                    <Form.Label>Title:</Form.Label>
+                    <Form.Control 
                         type="text" 
                         value={formData.title} 
                         onChange={(e) => setFormData({
@@ -47,26 +48,26 @@ function ArticleForm({ article=null, headerText, buttonText, onSubmit }
                         } 
                         required 
                     />
-                </div>
-                <div>
-                    <label htmlFor="image">Image:</label>
-                    <input 
-                        id="image"
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="image">
+                    <Form.Label>Image:</Form.Label>
+                    <Form.Control  
                         type="file"
                         accept="image/*"
                         onChange={(e) => {
                             setFormData({
                                 ...formData,
-                                image: e.target.files?.[0]
+                                image: (e.target as HTMLInputElement).files?.[0]
                             });
-                            console.log(e.target.files?.[0]);
+                            console.log((e.target as HTMLInputElement).files?.[0]);
                         }}
                     />
-                </div>
-                <div>
-                    <label htmlFor="bodyInput">Body:</label>
-                    <textarea 
-                        id="bodyInput" 
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="bodyInput">
+                    <Form.Label>Body:</Form.Label>
+                    <Form.Control 
+                        as="textarea"
+                        rows={7}
                         value={formData.body} 
                         onChange={(e) => setFormData({
                             ...formData,
@@ -74,22 +75,22 @@ function ArticleForm({ article=null, headerText, buttonText, onSubmit }
                         } 
                         required 
                     />
-                </div>
-                <div>
-                    <label htmlFor="notesInput">Notes:</label>
-                    <textarea 
-                        id="notesInput" 
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="notesInput">
+                    <Form.Label>Notes:</Form.Label>
+                    <Form.Control 
+                        as="textarea"
+                        rows={4}
                         value={formData.notes} 
                         onChange={(e) => setFormData({
                             ...formData,
                             notes: e.target.value})
                         } 
                     />
-                </div>
-                <div>
-                    <label htmlFor="linksInput">Links:</label>
-                    <input 
-                        id="linksInput" 
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="linksInput">
+                    <Form.Label>Links:</Form.Label>
+                    <Form.Control 
                         type="text" 
                         value={formData.links} 
                         onChange={(e) => setFormData({
@@ -97,11 +98,9 @@ function ArticleForm({ article=null, headerText, buttonText, onSubmit }
                             links: e.target.value})
                         }  
                     />
-                </div>
-                <div>
-                    <button type="submit">{buttonText}</button>
-                </div>
-            </form>
+                </Form.Group>
+                <Button type="submit" style={{float:"right"}}>{buttonText}</Button>
+            </Form>
         </div>
     )
 }
