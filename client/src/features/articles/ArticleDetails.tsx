@@ -41,14 +41,16 @@ function ArticleDetails() {
         <h2>Notes</h2>
         <p className='details-section'>{article?.notes}</p>
 
-        <h2>Links</h2>
-        <ul>
-            {article?.links.split(' ').map((link:any) => (
-                <li>
-                    <a href={`${link}`}>{link}</a>
-                </li>
-            ))}
-        </ul>
+        {article?.links && <>
+            <h2 >Links</h2> 
+            <ul>
+                {article?.links.split(' ').map((link:any) => (
+                    <li>
+                        <a href={`${link}`}>{link}</a>
+                    </li>
+                ))}
+            </ul> 
+        </>}
         <Link to={`/article/${article.id}/edit`}>Edit</Link>
         {" | "}
         <Link to="/">Back to Articles</Link>
