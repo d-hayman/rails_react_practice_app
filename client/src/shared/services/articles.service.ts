@@ -1,5 +1,4 @@
 import { ARTICLES_API_URL, SEARCH_API_URL } from "../../constants";
-import { Article } from "../models/article.model";
 
 async function fetchAllArticles(page:number = 1) {
     const response = await fetch(`${ARTICLES_API_URL}?page=${page}`);
@@ -42,10 +41,11 @@ async function searchArticles(query: string, page:number = 1) {
 }
 
 async function createArticle(articleData:FormData) {
+    const token = localStorage.getItem("token")??'';
     const response = await fetch(`${ARTICLES_API_URL}`, {
         method: "POST",
         headers: {
-            
+            "Authorization": token
         },
         body: articleData,
     });
@@ -72,11 +72,13 @@ async function updateArticle(id:string|undefined, articleData:FormData) {
         console.error("Tried to update article with null or undefined data?");
         return;
     }
+
+    const token = localStorage.getItem("token")??'';
     
     const response = await fetch(`${ARTICLES_API_URL}/${id}`, {
         method: "PUT",
         headers: {
-            
+            "Authorization": token
         },
         body: articleData,
     });

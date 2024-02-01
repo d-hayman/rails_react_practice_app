@@ -58,6 +58,8 @@ URLSearchParams
     }
 
     return <div>
+        <h1>The Devlog Devlog</h1>
+        <p>Wherein we log the development of a means by which to log development</p>
         <Row>
             <Col md={4}>
                 <SearchBar 

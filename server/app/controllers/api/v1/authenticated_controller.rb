@@ -1,7 +1,7 @@
 module Api
     module V1
       class AuthenticatedController < ApiController
-        before_action :check_basic_auth
+        before_action :check_basic_auth #checks auth on all methods by default, override in subclasses with "only:" when necessary
   
         private
   

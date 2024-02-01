@@ -40,7 +40,8 @@ function DeletionModal({ article, callback }: { article: any, callback:any }) {
             <Modal
                 show={visible}
                 onHide={handleCancel}
-                backdrop="static">
+                backdrop="static"
+                centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Delete {article?.title}</Modal.Title>
                 </Modal.Header>
