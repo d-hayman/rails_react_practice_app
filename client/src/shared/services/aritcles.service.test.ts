@@ -5,13 +5,14 @@ import {
     updateArticle, 
     deleteArticle
 } from "./articles.service";
-import { API_URL } from "../../constants";
+import { ARTICLES_API_URL } from "../../constants";
 import fetchMock from 'jest-fetch-mock';
+import { objectToFormData } from "../utils/formDataHelper";
 
 fetchMock.enableMocks();
 
 jest.mock("../../constants", () => ({
-    API_URL: "http://your-test-url"
+    ARTICLES_API_URL: "http://your-test-url"
 }));
 
 describe("Article API Service", () => {
@@ -65,7 +66,7 @@ describe("Article API Service", () => {
         };
         (fetch as any).mockResponseOnce(JSON.stringify(mockData));
 
-        const result = await createArticle(mockData);
+        const result = await createArticle(objectToFormData({article: mockData}));
 
         expect(result).toEqual(mockData);
     });
@@ -81,7 +82,7 @@ describe("Article API Service", () => {
         };
         (fetch as any).mockResponseOnce(JSON.stringify(mockData));
 
-        const result = await updateArticle("1", mockData);
+        const result = await updateArticle("1", objectToFormData({article: mockData}));
 
         expect(result).toEqual(mockData);
     });
@@ -120,7 +121,7 @@ describe("Article API Service", () => {
         };
         (fetch as any).mockResponseOnce(JSON.stringify({}), {status: 500});
 
-        await expect(createArticle(mockData)).rejects.toThrow();
+        await expect(createArticle(objectToFormData({article: mockData}))).rejects.toThrow();
     });
 
     it("throws an error when the response is not ok for updateArticle",async () => {
@@ -134,7 +135,7 @@ describe("Article API Service", () => {
         };
         (fetch as any).mockResponseOnce(JSON.stringify({}), {status: 500});
 
-        await expect(updateArticle(mockID, mockData)).rejects.toThrow();
+        await expect(updateArticle(mockID, objectToFormData({article: mockData}))).rejects.toThrow();
     });
 
     it("throws an error when the response is not ok for deleteArticle",async () => {
@@ -168,13 +169,13 @@ describe("Article API Service", () => {
         const consoleSpy = jest
             .spyOn(console, 'error')
             .mockImplementation(jest.fn());
-        const result = await updateArticle(undefined, {
+        const result = await updateArticle(undefined, objectToFormData({article: {
             title: "Test Title",
             body: "Test Body",
             notes: "Test Notes",
             links: "http://www.google.com",
             status: "public"
-        });
+        }}));
 
         expect(result).toEqual(undefined);
         expect(consoleSpy).toHaveBeenCalledWith("Tried to update article without ID?");
@@ -183,13 +184,13 @@ describe("Article API Service", () => {
         const consoleSpy = jest
             .spyOn(console, 'error')
             .mockImplementation(jest.fn());
-        const result = await updateArticle('', {
+        const result = await updateArticle('', objectToFormData({article: {
             title: "Test Title",
             body: "Test Body",
             notes: "Test Notes",
             links: "http://www.google.com",
             status: "public"
-        });
+        }}));
 
         expect(result).toEqual(undefined);
         expect(consoleSpy).toHaveBeenCalledWith("Tried to update article without ID?");
