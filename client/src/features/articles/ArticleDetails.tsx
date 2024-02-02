@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchArticle } from '../../shared/services/articles.service';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import  DeletionModal from '../../components/DeletionModal';
+import  DeletionModal from '../../shared/components/DeletionModal';
 import styles from '../../assets/styles/ArticleDetails.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
 

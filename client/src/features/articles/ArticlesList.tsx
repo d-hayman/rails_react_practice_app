@@ -1,13 +1,13 @@
 // API_URL comes from env
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import  DeletionModal from '../../components/DeletionModal';
+import  DeletionModal from '../../shared/components/DeletionModal';
 import SearchBar from '../../components/SearchBar';
 import useURLSearchParam from '../../shared/hooks/useURLSearchParam';
 import useArticlesData from '../../shared/hooks/useArticlesData';
 import styles from '../../assets/styles/ArticleList.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
-import Paginator from '../../components/Pagination';
+import Paginator from '../../shared/components/Pagination';
 import { Col, Row } from 'react-bootstrap';
 
 function ArticlesList(){

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { deleteArticle } from '../shared/services/articles.service';
+import { deleteArticle } from '../services/articles.service';
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
