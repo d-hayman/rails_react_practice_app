@@ -17,3 +17,5 @@ async function login(username: string, password: string) {
 
     return true;
 }
+
+export { login };

@@ -1,4 +1,5 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
+import LoginModal from './LoginModal';
 
 function NavBar(){
     return (
@@ -9,6 +10,7 @@ function NavBar(){
                     <Nav.Link href="/">Articles</Nav.Link>
                     <Nav.Link href="/new">New Article</Nav.Link>
                 </Nav>
+                <LoginModal/>
             </Container>
         </Navbar>
     )

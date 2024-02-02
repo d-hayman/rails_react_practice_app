@@ -15,25 +15,6 @@ jest.mock("../../shared/services/articles.service", () => ({
 
 global.console.error = jest.fn();
 
-/*describe("ArticlesList component with nothing loaded yet", () => {
-    test("sets error and loading to false when fetching posts fails",async () => {
-        // "Failed to fetch articles: ", e => An error occurred!
-        const error = new Error("An error occurred!");
-        (articlesService.fetchAllArticles as jest.Mock).mockRejectedValue(error);
-
-        //const consoleSpy = jest
-        //    .spyOn(console, 'error')
-        //    .mockImplementation(() => {});
-
-        render(<ArticlesList/>, {wrapper: MemoryRouter});
-
-        await waitFor(() => {
-            expect(console.error).toHaveBeenCalledWith("Failed to fetch articles: ", error);
-            //expect(consoleSpy).toHaveBeenCalledWith("Failed to fetch articles: ", error);
-        });
-    }); 
-});*/
-
 describe("ArticleDetails component", () => {
     const mockArticle: Article = {
         id: "1",
