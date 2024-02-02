@@ -49,10 +49,6 @@
   float: right;
 }
 
-.details-section {
-  white-space-collapse: preserve-breaks;
-}
-
-form {
+form, li {
   text-align: left;
 }

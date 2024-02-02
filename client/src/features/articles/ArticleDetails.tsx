@@ -36,10 +36,10 @@ function ArticleDetails() {
 
         <img src={article.image_url ?? noImage} alt={article.title} className={styles.article_image} />
 
-        <p className='details-section'>{article?.body}</p>
+        <p className={styles.details_section}>{article?.body}</p>
 
         <h2>Notes</h2>
-        <p className='details-section'>{article?.notes}</p>
+        <p className={styles.details_section}>{article?.notes}</p>
 
         {article?.links && <>
             <h2 >Links</h2> 
