@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { login } from '../shared/services/auth.service';
+import { login, logout } from '../shared/services/auth.service';
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { Form, InputGroup } from 'react-bootstrap';
+import { Form, InputGroup, Stack } from 'react-bootstrap';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function LoginModal() {
-    const [visible, setVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [validLogin, setValidLogin] = useState(true);
+
+    const [loggedInAs, setLoggedInAs] = useState(localStorage.getItem("loggedInAs")??'');
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -19,7 +21,7 @@ function LoginModal() {
         setValidLogin(true);
         setUsername('');
         setPassword('');
-        setVisible(true);
+        setModalVisible(true);
     };
 
     const handleConfirm = () => {
@@ -27,7 +29,7 @@ function LoginModal() {
     };
 
     const handleCancel = () => {
-        setVisible(false);
+        setModalVisible(false);
     };
 
     const doLogin = async () => {
@@ -36,28 +38,62 @@ function LoginModal() {
         try {
             const success = await login(username, password);
             if (success) {
-                setVisible(false);
+                setModalVisible(false);
+                setLoggedInAs(username);
             } else {
                 setValidLogin(false);
             }
         } catch (e) {
-            console.error("Failed to delete the article: ", e);
+            console.error("Failed to login: ", e);
         }
     };
 
+    const doLogout = async () => {
+        try {
+            const success = await logout();
+            if(success) {
+                setLoggedInAs('');
+            }
+        } catch (e) {
+            console.error("Failed to logout: ", e);
+        }
+    }
+
     return (
         <>
-            <Button variant="secondary" onClick={handleShow}>Login</Button>
+            <Button 
+                hidden={loggedInAs.length > 0} 
+                variant="secondary" 
+                onClick={handleShow}>
+                    Login
+            </Button>
+
+            <Stack direction="horizontal" gap={3} hidden={loggedInAs.length == 0}>
+                <Form.Label >{loggedInAs}</Form.Label>
+                <div className="vr" />
+                <Button 
+                    hidden={loggedInAs.length == 0} 
+                    variant="secondary" 
+                    onClick={doLogout}>
+                        Logout
+                </Button>
+            </Stack>
 
             <Modal
-                show={visible}
+                show={modalVisible}
                 onHide={handleCancel}
                 backdrop="static"
                 centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Login</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body 
+                    onKeyDown={(e) => {
+                        if (e.code === "Enter") {
+                        e.preventDefault();
+                        handleConfirm();
+                        }
+                    }}>
                 <Form>
                     <Form.Group className="mb-3" controlId="usernameInput">
                         <Form.Label>Username:</Form.Label>

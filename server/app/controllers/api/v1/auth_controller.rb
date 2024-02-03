@@ -19,7 +19,18 @@ module Api
       end
 
       def destroy
-        
+        unless request.authorization.present?
+          head :unauthorized
+          return
+        end
+
+        session = UserSession.find_by(token: request.authorization)
+
+        if session.nil?
+          return
+        else
+          session.destroy
+        end
       end
     end
   end

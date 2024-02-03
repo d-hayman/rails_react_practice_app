@@ -34,7 +34,9 @@ function ArticleDetails() {
         <br/>
         <h1>{article?.title}</h1>
 
-        <img src={article.image_url ?? noImage} alt={article.title} className={styles.article_image} />
+        <Link to={article.image_url ?? noImage} target="_blank" rel="noopener noreferrer">
+            <img src={article.image_url ?? noImage} alt={article.title} className={styles.article_image} />
+        </Link>
 
         <p className={styles.details_section}>{article?.body}</p>
 
