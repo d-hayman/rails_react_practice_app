@@ -10,7 +10,7 @@ describe('NavBar component', () => {
   test("render the nav bar", () => {
     renderNavBar();
 
-    expect(screen.getByText("Posts List")).toBeInTheDocument();
-    expect(screen.getByText("New Post")).toBeInTheDocument();
+    expect(screen.getByText("Articles")).toBeInTheDocument();
+    expect(screen.getByText("New Article")).toBeInTheDocument();
   });
 });

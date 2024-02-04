@@ -109,6 +109,6 @@ describe("NewArticleForm", () => {
             fireEvent.click(submitButton);
         });
 
-        expect(consoleSpy).toHaveBeenCalledWith("Failed to create post: ", new Error("Failed to create post."));
+        expect(consoleSpy).toHaveBeenCalledWith("Failed to create article: ", new Error("Failed to create post."));
     });
 });

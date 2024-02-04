@@ -69,7 +69,7 @@ function LoginModal() {
             </Button>
 
             <Stack direction="horizontal" gap={3} hidden={loggedInAs.length == 0}>
-                <Form.Label >{loggedInAs}</Form.Label>
+                <label >{loggedInAs}</label>
                 <div className="vr" />
                 <Button 
                     hidden={loggedInAs.length == 0} 
