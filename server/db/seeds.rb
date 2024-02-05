@@ -7,3 +7,12 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+[
+    ["Article", "create"],
+    ["Article", "update"],
+    ["Article", "destroy"],
+    ["Comment", "create"],
+    ["Comment", "destroy"]
+].each do |model, action|
+    Permission.find_or_create_by(model: model, action: action)
+end
