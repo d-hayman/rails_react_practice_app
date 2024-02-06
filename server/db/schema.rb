@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_26_020344) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_06_034900) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -68,6 +68,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_020344) do
     t.index ["model"], name: "index_permissions_on_model"
   end
 
+  create_table "permissions_users", primary_key: ["user_id", "permission_id"], charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "permission_id", null: false
+    t.index ["permission_id"], name: "index_permissions_users_on_permission_id"
+    t.index ["user_id"], name: "index_permissions_users_on_user_id"
+  end
+
   create_table "user_sessions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "token"
     t.bigint "user_id", null: false
@@ -92,17 +99,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_020344) do
     t.index ["uuid"], name: "index_users_on_uuid"
   end
 
-  create_table "users_permissions", primary_key: ["user_id", "permission_id"], charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "permission_id", null: false
-    t.index ["permission_id"], name: "index_users_permissions_on_permission_id"
-    t.index ["user_id"], name: "index_users_permissions_on_user_id"
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "articles"
+  add_foreign_key "permissions_users", "permissions", on_delete: :cascade
+  add_foreign_key "permissions_users", "users", on_delete: :cascade
   add_foreign_key "user_sessions", "users"
-  add_foreign_key "users_permissions", "permissions", on_delete: :cascade
-  add_foreign_key "users_permissions", "users", on_delete: :cascade
 end
