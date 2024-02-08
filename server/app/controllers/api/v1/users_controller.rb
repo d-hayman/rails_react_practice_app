@@ -4,7 +4,7 @@ module Api
         before_action :set_user, only: %i[show set_permissions]
 
         def index
-            users_per_page = 5
+            users_per_page = params.has_key?(:per_page) ? params[:per_page] : 5
             @users = User.all
     
             total_users_count = User.count
@@ -31,7 +31,9 @@ module Api
 
         private
         def include_permissions(user)
-            user.as_json.merge(permissions: user.permissions)
+            res = user.as_json
+            res.delete("password")
+            res.as_json.merge(permissions: user.permissions)
         end
 
         def set_user

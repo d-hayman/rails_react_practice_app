@@ -1,0 +1,33 @@
+import { USERS_API_URL } from "../../constants";
+
+async function fetchAllUsers(page:number = 1, perPage:number = 5) {
+    const response = await fetch(`${USERS_API_URL}?page=${page}&per_page=${perPage}`);
+
+    if (!response.ok) {
+        throw new Error(response.statusText);
+    }
+
+    return response.json();
+}
+
+async function fetchUser(id:string|undefined) {
+    if(id === undefined){
+        console.error("Tried to get user without ID?");
+        return;
+    }
+
+    if(id === ''){
+        console.error("Tried to get user without ID?");
+        return;
+    }
+
+    const response = await fetch(`${USERS_API_URL}/${id}`);
+
+    if (!response.ok) {
+        throw new Error(response.statusText);
+    }
+
+    return response.json();
+}
+
+export {fetchAllUsers, fetchUser};
