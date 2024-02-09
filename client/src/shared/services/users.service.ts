@@ -1,7 +1,14 @@
 import { USERS_API_URL } from "../../constants";
 
 async function fetchAllUsers(page:number = 1, perPage:number = 5) {
-    const response = await fetch(`${USERS_API_URL}?page=${page}&per_page=${perPage}`);
+
+    const token = localStorage.getItem("token")??'';
+
+    const response = await fetch(`${USERS_API_URL}?page=${page}&per_page=${perPage}`, {
+        headers: {
+            "Authorization": token,
+        },
+    });
 
     if (!response.ok) {
         throw new Error(response.statusText);
@@ -21,7 +28,13 @@ async function fetchUser(id:string|undefined) {
         return;
     }
 
-    const response = await fetch(`${USERS_API_URL}/${id}`);
+    const token = localStorage.getItem("token")??'';
+
+    const response = await fetch(`${USERS_API_URL}/${id}`, {
+        headers: {
+            "Authorization": token,
+        },
+    });
 
     if (!response.ok) {
         throw new Error(response.statusText);

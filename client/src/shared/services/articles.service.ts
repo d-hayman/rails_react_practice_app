@@ -91,8 +91,14 @@ async function updateArticle(id:string|undefined, articleData:FormData) {
 }
 
 async function deleteArticle(id:string) {
+
+    const token = localStorage.getItem("token")??'';
+    
     const response = await fetch(`${ARTICLES_API_URL}/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            "Authorization": token,
+        },
     });
 
     if(response.status === 204) {
