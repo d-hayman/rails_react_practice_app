@@ -142,21 +142,26 @@ function AdminUsersPermissions() {
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
-                <TableRow>
-                    <TableCell>
-                        <Checkbox
-                            color="primary"
-                            indeterminate={selected.length > 0 && selected.length < permissions.length}
-                            checked={selected.length > 0 && selected.length == permissions.length}
-                            onChange={handleSelectAllClick}
-                            inputProps={{
-                            'aria-label': 'select all permissions',
-                            }}
-                        />
-                    </TableCell>
-                    <TableCell align="center">Model</TableCell>
-                    <TableCell align="center">Action</TableCell>
-                </TableRow>
+                    <TableRow>
+                        <TableCell colSpan={3} align="center">
+                            <h4>Permissions for {user.username}</h4>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Checkbox
+                                color="primary"
+                                indeterminate={selected.length > 0 && selected.length < permissions.length}
+                                checked={selected.length > 0 && selected.length == permissions.length}
+                                onChange={handleSelectAllClick}
+                                inputProps={{
+                                'aria-label': 'select all permissions',
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">Model</TableCell>
+                        <TableCell align="center">Action</TableCell>
+                    </TableRow>
                 </TableHead>
                 <TableBody>
                 {(rowsPerPage > 0
@@ -197,25 +202,25 @@ function AdminUsersPermissions() {
                 })}
                 {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
-                    <TableCell colSpan={3} />
+                        <TableCell colSpan={3} />
                     </TableRow>
                 )}
                 </TableBody>
                 <TableFooter>
                     <TableRow>
                         <TablePagination
-                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                        colSpan={4}
-                        count={permissions.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
+                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                            colSpan={3}
+                            count={permissions.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                     </TableRow>
                     <TableRow>
-                        <TableCell colSpan={4}><Button onClick={savePermissions} style={{float:"right"}}>Save</Button></TableCell>
+                        <TableCell colSpan={3}><Button onClick={savePermissions} style={{float:"right"}}>Save</Button></TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>
