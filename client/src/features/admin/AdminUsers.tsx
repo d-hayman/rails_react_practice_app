@@ -21,8 +21,8 @@ function AdminUsers() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [users, setUsers] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error,setError] = useState<any>(null);
+    const [, setLoading] = useState(true);
+    const [,setError] = useState<any>(null);
     const [totalUsers, setTotalUsers] = useState(0);
 
     async function loadUsers() {
@@ -50,7 +50,7 @@ function AdminUsers() {
   const emptyRows = Math.max(0, rowsPerPage - users.length);
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
     setPage(newPage);

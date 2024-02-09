@@ -12,7 +12,12 @@
     ["Article", "update"],
     ["Article", "destroy"],
     ["Comment", "create"],
-    ["Comment", "destroy"]
+    ["Comment", "destroy"],
+    ["User", "index"],
+    ["User", "show"],
+    ["User", "set_permissions"],
+    ["Permission", "index"],
+    ["Permission", "show"]
 ].each do |model, action|
     Permission.find_or_create_by(model: model, action: action)
 end
