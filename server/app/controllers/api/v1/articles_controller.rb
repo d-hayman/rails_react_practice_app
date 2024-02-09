@@ -1,7 +1,7 @@
 module Api
   module V1
     class ArticlesController < AuthenticatedController
-      before_action :check_basic_auth, only: [:create, :update, :destroy]
+      before_action -> {check_basic_auth( :Article, params[:action])}, only: [:create, :update, :destroy] 
       before_action :set_article, only: %i[show update destroy]
 
       def index

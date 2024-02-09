@@ -52,3 +52,7 @@
 form, li {
   text-align: left;
 }
+
+.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows {
+  margin: unset;
+}

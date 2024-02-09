@@ -19,6 +19,10 @@ Rails.application.routes.draw do
   #API routes
   namespace :api do
     namespace :v1 do
+      resources :permissions, only: [:index, :show]
+      resources :users, only: [:index, :show] do 
+        post 'set_permissions', on: :member
+      end
       resources :articles, only: [:index, :show, :create, :update, :destroy]
       get 'search/articles'
       resources :auth, only: [:create, :destroy]
