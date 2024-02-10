@@ -40,6 +40,7 @@ function LoginModal() {
             if (success) {
                 setModalVisible(false);
                 setLoggedInAs(username);
+                window.location.reload();
             } else {
                 setValidLogin(false);
             }
@@ -53,6 +54,7 @@ function LoginModal() {
             const success = await logout();
             if(success) {
                 setLoggedInAs('');
+                window.location.reload();
             }
         } catch (e) {
             console.error("Failed to logout: ", e);

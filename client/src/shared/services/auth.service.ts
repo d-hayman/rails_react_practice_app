@@ -13,7 +13,9 @@ async function login(username: string, password: string) {
         return false;
     }
 
-    localStorage.setItem("token", (await response.json()).token)
+    const res = await response.json();
+    localStorage.setItem("token", res.token)
+    localStorage.setItem("permissions", res.permissions)
     localStorage.setItem("loggedInAs", username);
 
     return true;
@@ -31,8 +33,7 @@ async function logout() {
         return false;
     }
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("loggedInAs");
+    localStorage.clear();
 
     return true;
 }

@@ -9,7 +9,8 @@ module Api
           @session = @user.user_sessions.create()
 
           if @session.save
-            render json: @session
+            render json: @session.as_json.merge(
+              permissions: @session.user.permissions.map{ |permission| permission.model + ':' + permission.action }.join(','))
           else
             render json: @session.errors, status: :unprocessable_entity
           end
