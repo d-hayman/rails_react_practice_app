@@ -3,9 +3,9 @@ module Api
     class AuthController < ApiController
 
       def create
-        @user = User.find_by(username: params[:username])
+        @user = User.find_by(username: un_hex_or(params[:username]))
 
-        if !!@user && @user.authenticate?(params[:password])
+        if !!@user && @user.authenticate?(un_hex_or(params[:password]))
           @session = @user.user_sessions.create()
 
           if @session.save
@@ -33,6 +33,17 @@ module Api
           session.destroy
         end
       end
+
+      private
+      PRESHARED_KEY = "#$^TGB*yrghf(%$t%R"
+      def un_hex_or(string)
+        res = ""
+        (0...string.length / 2).each do |i|
+          res += (string[i*2, 2].to_i(16) ^ PRESHARED_KEY[i % PRESHARED_KEY.length].ord).chr
+        end
+        res
+      end
+      
     end
   end
 end
