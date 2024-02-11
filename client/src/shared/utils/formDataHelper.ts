@@ -38,7 +38,7 @@ export function formDataToObject(formData: FormData): any {
  * @param propertyName 
  * @returns 
  */
-function isValidProperty(obj: any, propertyName: string) {
+export function isValidProperty(obj: any, propertyName: string) {
     return (
         Object.prototype.hasOwnProperty.call(obj, propertyName) &&
         obj[propertyName] !== undefined && 

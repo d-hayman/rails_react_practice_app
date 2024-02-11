@@ -5,6 +5,8 @@ import { Article } from "../../shared/models/article.model";
 import ArticleForm from "./ArticleForm";
 import { objectToFormData } from "../../shared/utils/formDataHelper";
 import ErrorModal from "../../shared/components/ErrorModal";
+import { Alert } from "react-bootstrap";
+import { listifyErrors } from "../../shared/utils/responseHelpers";
 
 function EditArticleForm() {
     const [article, setArticle] = useState<Article|null>(null);
@@ -12,6 +14,8 @@ function EditArticleForm() {
     const [errorHeaderText, setErrorHeaderText] = useState('');
     const [errorBodyText, setErrorBodyText] = useState('');
     const [errorVisible, setErrorVisible] = useState(false);
+    const [showErrorAlert, setShowErrorAlert] = useState(false);
+    const [errorAlertBody, setErrorAlertBody] = useState<any>({});
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,8 +37,19 @@ function EditArticleForm() {
         try {
             delete(rawData.id);
             const formData = objectToFormData({article: rawData})
-            await updateArticle(id, formData);
-            navigate(`/article/${id}`);
+            const response = await updateArticle(id, formData);
+            if(response === undefined) {
+                setErrorAlertBody({error: "Malformed Data?"});
+                setShowErrorAlert(true);
+            } else {
+                const json = await response.json();
+            if(response.ok) {
+                navigate(`/article/${id}`);
+            } else {
+                setErrorAlertBody(json);
+                setShowErrorAlert(true);
+            }
+            }
         } catch (e) {
             setErrorHeaderText("Failed to Update Article");
             setErrorBodyText(`${e}`);
@@ -45,6 +60,12 @@ function EditArticleForm() {
 
     return (
         <>
+        { showErrorAlert &&
+        <Alert variant="danger" onClose={() => setShowErrorAlert(false)} dismissible>
+            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+            <ul>{listifyErrors(errorAlertBody)}</ul>
+        </Alert>}
+        
         {
             article
                 ? <ArticleForm

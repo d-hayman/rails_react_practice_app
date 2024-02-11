@@ -1,4 +1,5 @@
 import { ARTICLES_API_URL, SEARCH_API_URL } from "../../constants";
+import { hasJson } from "../utils/responseHelpers";
 
 async function fetchAllArticles(page:number = 1) {
     const response = await fetch(`${ARTICLES_API_URL}?page=${page}`);
@@ -50,11 +51,11 @@ async function createArticle(articleData:FormData) {
         body: articleData,
     });
 
-    if (!response.ok) {
+    if (!response.ok && !hasJson(response)) {
         throw new Error(response.statusText);
     }
 
-    return response.json();
+    return response;
 }
 
 async function updateArticle(id:string|undefined, articleData:FormData) {
@@ -83,11 +84,11 @@ async function updateArticle(id:string|undefined, articleData:FormData) {
         body: articleData,
     });
 
-    if (!response.ok) {
+    if (!response.ok && !hasJson(response)) {
         throw new Error(response.statusText);
     }
 
-    return response.json();
+    return response;
 }
 
 async function deleteArticle(id:string) {
