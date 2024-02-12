@@ -32,6 +32,8 @@ module Api
         end
 
         def set_permissions
+
+            @user.skip_password_validation = true
             
             if @user.update(user_permission_params)
                 render json: include_permissions(@user)
