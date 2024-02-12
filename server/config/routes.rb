@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :permissions, only: [:index, :show]
-      resources :users, only: [:index, :show] do 
+      resources :users, only: [:index, :show, :create] do 
         post 'set_permissions', on: :member
       end
       resources :articles, only: [:index, :show, :create, :update, :destroy]
