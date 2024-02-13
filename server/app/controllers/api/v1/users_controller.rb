@@ -25,7 +25,7 @@ module Api
           @user = User.new(user_create_params)
 
           if @user.save
-            render json: @user
+            render json: include_permissions(@user)
           else
             render json: @user.errors, status: :unprocessable_entity
           end

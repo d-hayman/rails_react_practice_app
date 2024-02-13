@@ -43,12 +43,12 @@ function EditArticleForm() {
                 setShowErrorAlert(true);
             } else {
                 const json = await response.json();
-            if(response.ok) {
-                navigate(`/article/${id}`);
-            } else {
-                setErrorAlertBody(json);
-                setShowErrorAlert(true);
-            }
+                if(response.ok) {
+                    navigate(`/article/${id}`);
+                } else {
+                    setErrorAlertBody(json);
+                    setShowErrorAlert(true);
+                }
             }
         } catch (e) {
             setErrorHeaderText("Failed to Update Article");
