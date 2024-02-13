@@ -66,7 +66,7 @@ describe("Article API Service", () => {
         };
         (fetch as any).mockResponseOnce(JSON.stringify(mockData));
 
-        const result = await createArticle(objectToFormData({article: mockData}));
+        const result = await (await createArticle(objectToFormData({article: mockData}))).json();
 
         expect(result).toEqual(mockData);
     });
@@ -82,7 +82,7 @@ describe("Article API Service", () => {
         };
         (fetch as any).mockResponseOnce(JSON.stringify(mockData));
 
-        const result = await updateArticle("1", objectToFormData({article: mockData}));
+        const result = await (await updateArticle("1", objectToFormData({article: mockData})))?.json();
 
         expect(result).toEqual(mockData);
     });
@@ -169,13 +169,13 @@ describe("Article API Service", () => {
         const consoleSpy = jest
             .spyOn(console, 'error')
             .mockImplementation(jest.fn());
-        const result = await updateArticle(undefined, objectToFormData({article: {
+        const result = await (await updateArticle(undefined, objectToFormData({article: {
             title: "Test Title",
             body: "Test Body",
             notes: "Test Notes",
             links: "http://www.google.com",
             status: "public"
-        }}));
+        }})))?.json();
 
         expect(result).toEqual(undefined);
         expect(consoleSpy).toHaveBeenCalledWith("Tried to update article without ID?");

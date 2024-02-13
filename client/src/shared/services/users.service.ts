@@ -1,4 +1,5 @@
 import { USERS_API_URL } from "../../constants";
+import { hasJson } from "../utils/responseHelpers";
 
 async function fetchAllUsers(page:number = 1, perPage:number = 5) {
 
@@ -43,6 +44,29 @@ async function fetchUser(id:string|undefined) {
     return response.json();
 }
 
+async function createUser(username: string, email: string, password: string, passwordConfirmation: string) {
+    
+    const response = await fetch(`${USERS_API_URL}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            user: {
+                username: username,
+                email: email,
+                password: password,
+                password_confirmation:passwordConfirmation
+        }}),
+    });
+
+    if (!response.ok && !hasJson(response)) {
+        throw new Error(response.statusText);
+    }
+
+    return response;
+}
+
 async function setUserPermissions(id:string|undefined, permissionIds:string[]) {
     if(id === undefined){
         console.error("Tried to update user without ID?");
@@ -72,4 +96,4 @@ async function setUserPermissions(id:string|undefined, permissionIds:string[]) {
     return response.json();
 }
 
-export {fetchAllUsers, fetchUser, setUserPermissions};
+export {fetchAllUsers, fetchUser, createUser, setUserPermissions};

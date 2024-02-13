@@ -1,7 +1,7 @@
 module Api
     module V1
       class UsersController < AuthenticatedController
-        before_action -> {check_basic_auth( :User, params[:action], ['show'], params[:id])}
+        before_action -> {check_basic_auth( :User, params[:action], ['show'], params[:id])}, except: [:create]
         before_action :set_user, only: %i[show set_permissions]
 
         def index
@@ -21,7 +21,19 @@ module Api
             render json: include_permissions(@user)
         end
 
+        def create
+          @user = User.new(user_create_params)
+
+          if @user.save
+            render json: include_permissions(@user)
+          else
+            render json: @user.errors, status: :unprocessable_entity
+          end
+        end
+
         def set_permissions
+
+            @user.skip_password_validation = true
             
             if @user.update(user_permission_params)
                 render json: include_permissions(@user)
@@ -43,6 +55,10 @@ module Api
 
         def user_permission_params
           params.require(:user).permit(:permission_ids => [])
+        end
+
+        def user_create_params
+          params.require(:user).permit(:username, :email, :password, :password_confirmation)
         end
 
       end
