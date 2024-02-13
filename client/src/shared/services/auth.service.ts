@@ -5,7 +5,11 @@ const presharedKey = "#$^TGB*yrghf(%$t%R";
 function HexOr(string: string) {
     let res = "";
     for(let i = 0; i < string.length; i++){
-        res += (string.charCodeAt(i) ^ presharedKey.charCodeAt(i%presharedKey.length)).toString(16);
+        let hexValue = (string.charCodeAt(i) ^ presharedKey.charCodeAt(i % presharedKey.length)).toString(16);
+        if (hexValue.length < 2) {
+            hexValue = '0' + hexValue; // Pad with leading zero if necessary
+        }
+        res += hexValue;
     }
 
     return res;
