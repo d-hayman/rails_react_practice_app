@@ -1,6 +1,7 @@
 import { AUTH_API_URL } from "../../constants";
 
-const presharedKey = "#$^TGB*yrghf(%$t%R";
+// You should definitely have this defined in another file and not part of a public repository outside of a demo project
+const presharedKey = "#$^TGB*y4654rghf(%$t%R";
 
 function HexOr(string: string) {
     let res = "";

@@ -35,7 +35,7 @@ module Api
       end
 
       private
-      PRESHARED_KEY = "#$^TGB*yrghf(%$t%R"
+      PRESHARED_KEY = "#$^TGB*y4654rghf(%$t%R"
       def un_hex_or(string)
         res = ""
         (0...string.length / 2).each do |i|
