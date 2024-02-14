@@ -6,6 +6,8 @@ import styles from '../../assets/styles/ArticleDetails.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
 
 function ArticleDetails() {
+    const hasArticleDestroy = (localStorage.getItem("permissions")??'').includes("Article:destroy");
+    const hasArticleUpdate = (localStorage.getItem("permissions")??'').includes("Article:update");
     const [article, setArticle] = useState<any>(null);
     const { id } = useParams();
     const navigate = useNavigate();
@@ -53,11 +55,22 @@ function ArticleDetails() {
                 ))}
             </ul> 
         </>}
-        <Link to={`/article/${article.id}/edit`}>Edit</Link>
-        {" | "}
+
+        { hasArticleUpdate && 
+            <>
+            <Link to={`/article/${article.id}/edit`}>Edit</Link>
+            {" | "}
+            </>
+        }
+
         <Link to="/">Back to Articles</Link>
-        {" | "}
-        <DeletionModal article={article} callback={()=>{navigate("/")}}/>
+
+        { hasArticleDestroy &&
+            <>
+            {" | "}
+            <DeletionModal article={article} callback={()=>{navigate("/")}}/>
+            </>
+        }
 
     </div>;
 }

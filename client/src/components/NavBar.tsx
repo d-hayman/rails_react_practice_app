@@ -4,10 +4,10 @@ import LoginModal from './LoginModal';
 import { Link } from 'react-router-dom';
 import { GiSaucepan } from 'react-icons/gi';
 import { MdSettings } from 'react-icons/md';
-import { useState } from 'react';
 
 function NavBar(){
-    const [permissions, setPermissions] = useState(localStorage.getItem("permissions")??'');
+    const hasArticleCreate = (localStorage.getItem("permissions")??'').includes("Article:create");
+    const hasAdminPanel = (localStorage.getItem("permissions")??'').includes("AdminPanel:view");
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -24,9 +24,11 @@ function NavBar(){
                 </Tooltip>
                 <Nav className="me-auto">
                     <Nav.Link href="/">Articles</Nav.Link>
-                    <Nav.Link href="/new">New Article</Nav.Link>
+                    { hasArticleCreate &&
+                        <Nav.Link href="/new">New Article</Nav.Link>
+                    }
                 </Nav>
-                { (localStorage.getItem("permissions")??'').includes("AdminPanel:view") &&
+                { hasAdminPanel &&
                     <Tooltip title="Admin">
                         <Link to="/admin">
                             <MdSettings/>

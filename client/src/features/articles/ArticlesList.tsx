@@ -11,10 +11,12 @@ import Paginator from '../../shared/components/Pagination';
 import { Col, Row } from 'react-bootstrap';
 
 function ArticlesList(){
+    const hasArticleDestroy = (localStorage.getItem("permissions")??'').includes("Article:destroy");
+    const hasArticleUpdate = (localStorage.getItem("permissions")??'').includes("Article:update");
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedSearchTerm, setDebouncedSearchTerm] = 
         useURLSearchParam("search");
-URLSearchParams
+
     const [searchParams, setSearchParams] = useSearchParams();
 
     const initialPageFromURL = Number(searchParams.get("page") || 1);
@@ -89,9 +91,15 @@ URLSearchParams
                 </Link>
                 <p>{article.created_at}</p>
                 <div className='post-links'>
-                    <Link to={`/article/${article.id}/edit`}>Edit</Link>
-                    {" | "}
-                    <DeletionModal article={article} callback={()=>{setArticles(articles.filter((_article) => _article.id !== article.id));}}/>
+                    { hasArticleUpdate &&
+                        <Link to={`/article/${article.id}/edit`}>Edit</Link>
+                    }
+                    { hasArticleUpdate && hasArticleDestroy &&
+                        " | "
+                    }
+                    { hasArticleDestroy &&
+                        <DeletionModal article={article} callback={()=>{setArticles(articles.filter((_article) => _article.id !== article.id));}}/>
+                    }
                 </div>
             </div>
         ))}
