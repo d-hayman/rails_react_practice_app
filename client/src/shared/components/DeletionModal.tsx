@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { deleteArticle } from '../services/articles.service';
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function DeletionModal({ article, callback }: { article: any, callback:any }) {
+function DeletionModal({ title, id, deletion, callback }: { title: string, id: string, deletion: Function, callback:any }) {
     const [visible, setVisible] = useState(false);
 
     const handleShow = (e: any) => {
@@ -12,7 +11,7 @@ function DeletionModal({ article, callback }: { article: any, callback:any }) {
     };
 
     const handleConfirm = () => {
-        doDeleteArticle();
+        doDelete();
         setVisible(false);
     };
 
@@ -20,16 +19,14 @@ function DeletionModal({ article, callback }: { article: any, callback:any }) {
         setVisible(false);
     };
 
-    const doDeleteArticle = async () => {
-        if (article === null)
-            return;
+    const doDelete = async () => {
         try {
-            await deleteArticle(article.id);
+            await deletion(id);
             if(typeof callback === "function") {
                 callback();
             }
         } catch (e) {
-            console.error("Failed to delete the article: ", e);
+            console.error("Failed to delete: ", e);
         }
     };
 
@@ -43,7 +40,7 @@ function DeletionModal({ article, callback }: { article: any, callback:any }) {
                 backdrop="static"
                 centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Delete {article?.title}</Modal.Title>
+                    <Modal.Title>Delete {title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>Do you really want to Delete?</Modal.Body>
                 <Modal.Footer>

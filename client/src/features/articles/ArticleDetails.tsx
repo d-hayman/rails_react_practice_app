@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchArticle } from '../../shared/services/articles.service';
+import { deleteArticle, fetchArticle } from '../../shared/services/articles.service';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import  DeletionModal from '../../shared/components/DeletionModal';
 import styles from '../../assets/styles/ArticleDetails.module.css';
@@ -68,7 +68,7 @@ function ArticleDetails() {
         { hasArticleDestroy &&
             <>
             {" | "}
-            <DeletionModal article={article} callback={()=>{navigate("/")}}/>
+            <DeletionModal title={article.title} id={article.id} deletion={deleteArticle} callback={()=>{navigate("/")}}/>
             </>
         }
 

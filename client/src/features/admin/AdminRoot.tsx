@@ -1,6 +1,7 @@
 import { Grid, Paper } from "@mui/material";
 import { IconType } from "react-icons";
 import { FaUser } from "react-icons/fa";
+import { FcInvite } from "react-icons/fc";
 import { Link } from "react-router-dom";
 
 class Tile {
@@ -11,12 +12,15 @@ class Tile {
 
 function AdminRoot () {
 
-    const tiles:Tile[] = [{icon:FaUser,title:"Users",link:"users"}]
+    const tiles:Tile[] = [
+        {icon:FaUser,title:"Users",link:"users"},
+        {icon:FcInvite,title:"Invites",link:"invites"},
+    ];
 
     return (
         <Grid container justifyContent="left" spacing={2} style={{marginTop:"unset"}}>
             {tiles.map((value) => (
-                <Grid item xs={3}>
+                <Grid item xs={3} key={value.title}>
                     <Link to={`/admin/${value.link}`} style={{textDecoration:"none"}}>
                         <Paper
                             sx={{

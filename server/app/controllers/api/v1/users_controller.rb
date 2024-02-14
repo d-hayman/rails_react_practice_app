@@ -26,7 +26,7 @@ module Api
           @user = User.new(user_create_params)
 
           #check for a matching invite
-          invite = Invite.find_by(email:@user.email)
+          invite = Invite.find_by(email:@user.email, consumed: false)
 
           unless invite.nil?
             invite.consumed = true

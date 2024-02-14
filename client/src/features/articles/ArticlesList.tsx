@@ -9,6 +9,7 @@ import styles from '../../assets/styles/ArticleList.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
 import Paginator from '../../shared/components/Pagination';
 import { Col, Row } from 'react-bootstrap';
+import { deleteArticle } from '../../shared/services/articles.service';
 
 function ArticlesList(){
     const hasArticleDestroy = (localStorage.getItem("permissions")??'').includes("Article:destroy");
@@ -98,7 +99,7 @@ function ArticlesList(){
                         " | "
                     }
                     { hasArticleDestroy &&
-                        <DeletionModal article={article} callback={()=>{setArticles(articles.filter((_article) => _article.id !== article.id));}}/>
+                        <DeletionModal title={article.title} id={article.id} deletion={deleteArticle} callback={()=>{setArticles(articles.filter((_article) => _article.id !== article.id));}}/>
                     }
                 </div>
             </div>

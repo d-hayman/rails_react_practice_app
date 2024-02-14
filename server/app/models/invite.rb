@@ -1,4 +1,4 @@
 class Invite < ApplicationRecord
     validates :email, presence: true
-    validates :email, uniqueness: true, unless: :consumed
+    validates_uniqueness_of :email, conditions: -> { where(consumed: false) }
 end

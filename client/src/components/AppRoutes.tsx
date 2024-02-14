@@ -7,6 +7,7 @@ import EditArticleForm from '../features/articles/EditArticleForm';
 import AdminRoot from '../features/admin/AdminRoot';
 import AdminUsers from '../features/admin/AdminUsers';
 import AdminUsersPermissions from '../features/admin/AdminUsersPermissions';
+import AdminInvites from '../features/admin/AdminInvites';
 
 function AppRoutes() {
     return (
@@ -19,6 +20,7 @@ function AppRoutes() {
             <Route path="/admin" element={<AdminRoot/>}/>
             <Route path="/admin/users" element={<AdminUsers/>}/>
             <Route path="/admin/users/:id/permissions" element={<AdminUsersPermissions/>}/>
+            <Route path="/admin/invites" element={<AdminInvites/>}/>
         </Routes>
     )
 }

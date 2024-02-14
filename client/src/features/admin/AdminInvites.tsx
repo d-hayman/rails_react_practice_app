@@ -12,42 +12,43 @@ import {
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useEffect, useState } from 'react';
-import { fetchAllUsers } from '../../shared/services/users.service';
-import { Button } from 'react-bootstrap';
+import { fetchAllInvites, deleteInvite } from '../../shared/services/invites.service';
 import { MdRefresh } from 'react-icons/md';
-import { FaKey } from 'react-icons/fa';
+import { FcCheckmark } from 'react-icons/fc';
+import DeletionModal from '../../shared/components/DeletionModal';
+import CreateInviteModal from './components/CreateInviteModal';
 
-function AdminUsers() {
+function AdminInvites() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [users, setUsers] = useState<any[]>([]);
+    const [invites, setInvites] = useState<any[]>([]);
     const [, setLoading] = useState(true);
     const [,setError] = useState<any>(null);
-    const [totalUsers, setTotalUsers] = useState(0);
+    const [totalInvites, setTotalInvites] = useState(0);
 
-    async function loadUsers() {
+    async function loadInvites() {
         try {
             //MUI paginator is 0-indexed but Kaminari is 1-indexed
-            let data = await fetchAllUsers(page+1, rowsPerPage);
-            if(data.users) {
-                setUsers(data.users);
-                setTotalUsers(data.total_count);
+            let data = await fetchAllInvites(page+1, rowsPerPage);
+            if(data.invites) {
+                setInvites(data.invites);
+                setTotalInvites(data.total_count);
                 setRowsPerPage(Number.parseInt(data.per_page));
             }
             setLoading(false);
         } catch(e) {
             setError(e);
             setLoading(false);
-            console.error("Failed to fetch users: ", e);
+            console.error("Failed to fetch invites: ", e);
         }
     }
 
     useEffect(() => {
-        loadUsers();
+        loadInvites();
     }, [rowsPerPage, page])
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = Math.max(0, rowsPerPage - users.length);
+  const emptyRows = Math.max(0, rowsPerPage - invites.length);
 
   const handleChangePage = (
     _: React.MouseEvent<HTMLButtonElement> | null,
@@ -68,12 +69,12 @@ function AdminUsers() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Username</TableCell>
             <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Last Login</TableCell>
+            <TableCell align="right">Consumed</TableCell>
             <TableCell align="right">
+                <CreateInviteModal callback={loadInvites}/>
                 <Tooltip title="Refresh">
-                    <IconButton onClick={() => {loadUsers()}}>
+                    <IconButton onClick={() => {loadInvites()}}>
                         <MdRefresh/>
                     </IconButton>
                 </Tooltip>
@@ -81,21 +82,16 @@ function AdminUsers() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((row) => (
-            <TableRow key={row.username}>
-              <TableCell component="th" scope="row">
-                {row.username}
-              </TableCell>
+          {invites.map((row) => (
+            <TableRow key={row.id}>
               <TableCell style={{ width: 160 }} align="right">
                 {row.email}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.lastLogin}
+                {row.consumed? <FcCheckmark/> : <></>}
               </TableCell>
               <TableCell align="right">
-                <Button variant="outline-secondary" size='sm' href={`/admin/users/${row.id}/permissions`}>
-                    <FaKey/>
-                </Button>
+                <DeletionModal title={row.email} id={row.id} deletion={deleteInvite} callback={()=> {loadInvites()}}/>
               </TableCell>
             </TableRow>
           ))}
@@ -110,7 +106,7 @@ function AdminUsers() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={4}
-              count={totalUsers}
+              count={totalInvites}
               rowsPerPage={rowsPerPage}
               page={page}
               
@@ -124,4 +120,4 @@ function AdminUsers() {
   );
 }
 
-export default AdminUsers;
+export default AdminInvites;
