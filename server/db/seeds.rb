@@ -18,7 +18,10 @@
     ["User", "set_permissions"],
     ["Permission", "index"],
     ["Permission", "show"],
-    ["AdminPanel", "view"]
+    ["AdminPanel", "view"],
+    ["Invite", "index"],
+    ["Invite", "create"],
+    ["Invite", "destroy"]
 ].each do |model, action|
     Permission.find_or_create_by(model: model, action: action)
 end

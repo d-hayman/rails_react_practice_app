@@ -22,7 +22,16 @@ module Api
         end
 
         def create
+          #instantiate potential new user
           @user = User.new(user_create_params)
+
+          #check for a matching invite
+          invite = Invite.find_by(email:@user.email)
+
+          unless invite.nil?
+            invite.consumed = true
+            invite.save
+          end
 
           if @user.save
             render json: include_permissions(@user)
