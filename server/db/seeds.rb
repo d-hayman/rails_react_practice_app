@@ -21,7 +21,15 @@
     ["AdminPanel", "view"],
     ["Invite", "index"],
     ["Invite", "create"],
-    ["Invite", "destroy"]
+    ["Invite", "destroy"],
+    ["Setting", "index"],
+    ["Setting", "update"]
 ].each do |model, action|
     Permission.find_or_create_by(model: model, action: action)
+end
+
+[
+    ["Invite Only", "False"]
+].each do |name, value|
+    ToggleSetting.find_or_create_by(name: name, value: value)
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_14_022028) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_14_235842) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -80,6 +80,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_14_022028) do
     t.bigint "permission_id", null: false
     t.index ["permission_id"], name: "index_permissions_users_on_permission_id"
     t.index ["user_id"], name: "index_permissions_users_on_user_id"
+  end
+
+  create_table "settings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "value"
+    t.string "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_sessions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

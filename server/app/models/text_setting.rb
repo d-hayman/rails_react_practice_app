@@ -1,0 +1,2 @@
+class TextSetting < Setting
+end
