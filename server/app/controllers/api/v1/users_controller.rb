@@ -28,9 +28,14 @@ module Api
           #check for a matching invite
           invite = Invite.find_by(email:@user.email, consumed: false)
 
-          unless invite.nil?
+          invite_setting = Setting.find_by(name:"Invite Only")
+
+          if invite
             invite.consumed = true
             invite.save
+          elsif invite_setting && invite_setting.value == "True"
+            render json: {invite: "You must use a valid invited email address"}, status: :locked
+            return
           end
 
           if @user.save
