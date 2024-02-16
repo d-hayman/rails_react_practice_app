@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
 
+      resources :settings, only: [:index, :update]
+      match "settings", to: "settings#update", via: "put" #updates a list of predefined settings all at once - no need for an ID in the URI
+
       resources :permissions, only: [:index, :show]
 
       resources :users, only: [:index, :show, :create] do 
@@ -30,7 +33,7 @@ Rails.application.routes.draw do
       get 'search/articles'
 
       resources :auth, only: [:create, :destroy]
-      match "auth", to: "auth#destroy", via: "delete", defaults: { id: nil }
+      match "auth", to: "auth#destroy", via: "delete", defaults: { id: nil } #destroys the token passed in the request header - no need to include an id in the URI
 
       resources :invites, only: [:index, :create, :destroy]
     end

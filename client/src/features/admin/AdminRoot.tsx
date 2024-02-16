@@ -1,6 +1,6 @@
 import { Grid, Paper } from "@mui/material";
 import { IconType } from "react-icons";
-import { FaUser } from "react-icons/fa";
+import { FaCog, FaUser } from "react-icons/fa";
 import { FcInvite } from "react-icons/fc";
 import { Link } from "react-router-dom";
 
@@ -15,6 +15,7 @@ function AdminRoot () {
     const tiles:Tile[] = [
         {icon:FaUser,title:"Users",link:"users"},
         {icon:FcInvite,title:"Invites",link:"invites"},
+        {icon:FaCog,title:"Settings",link:"settings"},
     ];
 
     return (
