@@ -1,13 +1,20 @@
 import Paper from '@mui/material/Paper';
 import { ReactNode, useEffect, useState } from 'react';
-import { fetchAllSettings } from '../../shared/services/settings.service';
+import { fetchAllSettings, updateSettings } from '../../shared/services/settings.service';
 import { FormControlLabel, FormGroup, Switch, TextField } from '@mui/material';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
+import { listifyErrors } from '../../shared/utils/responseHelpers';
+import { useNavigate } from 'react-router-dom';
 
 function AdminSettings() {
     const [settings, setSettings] = useState<any[]>([]);
     const [, setLoading] = useState(true);
     const [,setError] = useState<any>(null);
+    
+    const [showErrorAlert, setShowErrorAlert] = useState(false);
+    const [errorAlertBody, setErrorAlertBody] = useState<any>({});
+    
+    const navigate = useNavigate();
 
     async function loadSettings() {
         try {
@@ -72,17 +79,41 @@ function AdminSettings() {
     };
   }
 
+  const handleSubmit = async () => {
+      try {
+          const response:Response = await updateSettings(settings.map((s) => {return {name:s.name,value:s.value}}));
+          if (response.ok) {
+            navigate(`/admin`);
+          } else {
+              const json = await response.json();
+              setErrorAlertBody(json);
+              setShowErrorAlert(true);
+          }
+      } catch (e) {
+          setErrorAlertBody({error: `${e}`});
+          setShowErrorAlert(true);
+          console.error("Failed to create invite: ", e);
+      }
+  };
+
   return (
+    <>
+    { showErrorAlert &&
+      <Alert variant="danger" onClose={() => setShowErrorAlert(false)} dismissible>
+          <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+          <ul>{listifyErrors(errorAlertBody)}</ul>
+      </Alert>}
+      
     <Paper style={{padding:15}}>
           <Container>
             <Row style={{marginBottom:15}}>
               <Col>
-                <Button style={{float:"right"}}>Save</Button>
+                <Button onClick={handleSubmit} style={{float:"right"}}>Save</Button>
               </Col>
             </Row>
             <Row>
               {settings.map((row, index) => (
-                <Col sm={6}>
+                <Col sm={6} key={row.id}>
                   <FormGroup>
                     {renderSwitch(row, index)}
                   </FormGroup>
@@ -91,6 +122,7 @@ function AdminSettings() {
             </Row>
           </Container>
     </Paper>
+    </>
   );
 }
 

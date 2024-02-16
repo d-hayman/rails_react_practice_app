@@ -38,7 +38,7 @@ module Api
                 setting = Setting.find_by(name: s[:name])
                 setting.value = s[:value]
                 unless setting.save
-                  errors = errors.as_json.merge("#{s[:name]}":setting.errors)
+                  errors[s[:name]] = setting.errors.full_messages
                 end
               end
 

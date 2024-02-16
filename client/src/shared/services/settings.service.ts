@@ -25,7 +25,7 @@ async function fetchAllSettings() {
 async function updateSettings(settings:{name:string,value:string}[]) {
     if(settings === undefined || settings.length == 0){
         console.error("Tried to update settings without data?");
-        return;
+        throw new Error("Tried to update settings without data?");
     }
 
     const token = localStorage.getItem("token")??'';
