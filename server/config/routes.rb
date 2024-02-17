@@ -29,7 +29,9 @@ Rails.application.routes.draw do
         post 'set_permissions', on: :member
       end
 
-      resources :articles, only: [:index, :show, :create, :update, :destroy]
+      resources :articles, only: [:index, :show, :create, :update, :destroy] do 
+        resources :comments, only: [:index, :create, :destroy]
+      end
       get 'search/articles'
 
       resources :auth, only: [:create, :destroy]
