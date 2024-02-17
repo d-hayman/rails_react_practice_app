@@ -1,6 +1,7 @@
 class User < ApplicationRecord
     before_create :hash_password
     has_many :user_sessions, dependent: :destroy
+    has_many :comments
 
     has_and_belongs_to_many :permissions
 
