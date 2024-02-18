@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchArticle, updateArticle } from "../../shared/services/articles.service";
 import { Article } from "../../shared/models/article.model";
-import ArticleForm from "./ArticleForm";
+import ArticleForm from "./components/ArticleForm";
 import { objectToFormData } from "../../shared/utils/formDataHelper";
 import ErrorModal from "../../shared/components/ErrorModal";
 import { Alert } from "react-bootstrap";

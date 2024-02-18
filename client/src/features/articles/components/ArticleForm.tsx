@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Article } from "../../shared/models/article.model";
+import { Article } from "../../../shared/models/article.model";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
