@@ -74,8 +74,8 @@ function ArticlesList(){
             <Col md={8}>
                 <Paginator
                     currentPage={currentPage}
-                    totalArticles={totalArticles}
-                    articlesPerPage={perPage}
+                    totalItems={totalArticles}
+                    itemsPerPage={perPage}
                     onPageChange={handlePageChange}
                 />
             </Col>
@@ -106,8 +106,8 @@ function ArticlesList(){
         ))}
         <Paginator 
             currentPage={currentPage}
-            totalArticles={totalArticles}
-            articlesPerPage={perPage}
+            totalItems={totalArticles}
+            itemsPerPage={perPage}
             onPageChange={handlePageChange}
         />
     </div>

@@ -3,8 +3,8 @@ import { Pagination } from "react-bootstrap";
 
 const paginationPropTypes = {
     currentPage: PropTypes.number.isRequired,
-    totalArticles: PropTypes.number.isRequired,
-    articlesPerPage: PropTypes.number.isRequired,
+    totalItems: PropTypes.number.isRequired,
+    itemsPerPage: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired
 };
 
@@ -13,8 +13,8 @@ type paginationTypes = InferProps<typeof paginationPropTypes>;
  * 
  * @param param0 
  */
-function Paginator({ currentPage, totalArticles, articlesPerPage, onPageChange }: paginationTypes) {
-    const totalPages = Math.ceil(totalArticles/articlesPerPage);
+function Paginator({ currentPage, totalItems, itemsPerPage, onPageChange }: paginationTypes) {
+    const totalPages = Math.ceil(totalItems/itemsPerPage);
 
     const handleFirst = () => {
         if(currentPage > 1) {
@@ -40,18 +40,18 @@ function Paginator({ currentPage, totalArticles, articlesPerPage, onPageChange }
     }
 
     const getVisiblePageNumbers = () => {
+        const lastPageBeforeEllipsis = 8;
+
         if(totalPages <= 10) {
             return createRange(1, totalPages);
         }
 
         if(currentPage <= 6){
-            const lastPageBeforeEllipsis = 8;
             return [...createRange(1, lastPageBeforeEllipsis), "...", totalPages];
         }
 
         if(currentPage >= totalPages - 5){
-            const lastPageBeforeEllipsis = 8;
-            return [1, "...", ...createRange(totalPages - 8, totalPages)];
+            return [1, "...", ...createRange(totalPages - lastPageBeforeEllipsis, totalPages)];
         }
 
         return [1, "...", ...createMiddlePages(), "...", totalPages];
@@ -86,8 +86,8 @@ function Paginator({ currentPage, totalArticles, articlesPerPage, onPageChange }
                 )
             )}
 
-            <Pagination.Next onClick={handleNext} disabled={currentPage === totalPages || totalArticles === 0} />
-            <Pagination.Last onClick={handleLast} disabled={currentPage === totalPages || totalArticles === 0} />
+            <Pagination.Next onClick={handleNext} disabled={currentPage === totalPages || totalItems === 0} />
+            <Pagination.Last onClick={handleLast} disabled={currentPage === totalPages || totalItems === 0} />
         </Pagination>
     );
 }
