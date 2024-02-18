@@ -6,12 +6,12 @@ module Api
 
 	  def index
 		comments_per_page = params.has_key?(:per_page) ? params[:per_page] : 5
-		@comments = @article.comments
+		@comments = @article.comments.order(created_at: :desc)
 
 		total_comments_count = @comments.count
 
 		render json: {
-			comments: @comments.page(params[:page]).per(comments_per_page),
+			comments: @comments.page(params[:page]).per(comments_per_page).map{|comment| comment.as_json.merge(username:comment.user.username) },
 			total_count: total_comments_count,
 			per_page: comments_per_page
 		}

@@ -52,7 +52,7 @@ function CreateInviteModal({callback}: {callback: Function}) {
             backdrop="static"
             centered>
             <Modal.Header closeButton>
-                <Modal.Title>Sign Up</Modal.Title>
+                <Modal.Title>Invite User</Modal.Title>
             </Modal.Header>
             <Modal.Body 
                 onKeyDown={(e) => {

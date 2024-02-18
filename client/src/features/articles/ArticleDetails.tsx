@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import  DeletionModal from '../../shared/components/DeletionModal';
 import styles from '../../assets/styles/ArticleDetails.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
+import CommentSection from './components/CommentSection';
 
 function ArticleDetails() {
     const hasArticleDestroy = (localStorage.getItem("permissions")??'').includes("Article:destroy");
@@ -55,6 +56,8 @@ function ArticleDetails() {
                 ))}
             </ul> 
         </>}
+
+        <CommentSection articleId = {id??'0'} />
 
         { hasArticleUpdate && 
             <>
