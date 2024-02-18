@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { act } from 'react-dom/test-utils';
 import ArticleForm from "./ArticleForm";
-import { Article } from "../../shared/models/article.model";
+import { Article } from "../../../shared/models/article.model";
 
 describe("ArticleForm component", () => {
     it("renders default inputs when no post prop is passed", () =>{

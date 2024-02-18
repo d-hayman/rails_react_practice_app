@@ -8,7 +8,7 @@ import useArticlesData from '../../shared/hooks/useArticlesData';
 import styles from '../../assets/styles/ArticleList.module.css';
 import noImage from '../../assets/img/imagenotfound.png';
 import Paginator from '../../shared/components/Pagination';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { deleteArticle } from '../../shared/services/articles.service';
 
 function ArticlesList(){
@@ -74,8 +74,8 @@ function ArticlesList(){
             <Col md={8}>
                 <Paginator
                     currentPage={currentPage}
-                    totalArticles={totalArticles}
-                    articlesPerPage={perPage}
+                    totalItems={totalArticles}
+                    itemsPerPage={perPage}
                     onPageChange={handlePageChange}
                 />
             </Col>
@@ -83,31 +83,33 @@ function ArticlesList(){
         {loading && <p>Loading... </p>}
         {error && <p>Error loading posts.</p>}
         {articles.map((article:any) => (
-            <div key={article.id} className='article-container'>
-                <Link to={`/article/${article.id}`} className='article-title'>
+            <div key={article.id} className={styles.article_container}>
+                <Link to={`/article/${article.id}`} className={styles.article_title}>
                     <h2>
                         {article.title}
                     </h2>
                     <img src={article.image_url ?? noImage} alt={article.title} className={styles.article_image} />
                 </Link>
-                <p>{article.created_at}</p>
-                <div className='post-links'>
-                    { hasArticleUpdate &&
-                        <Link to={`/article/${article.id}/edit`}>Edit</Link>
-                    }
-                    { hasArticleUpdate && hasArticleDestroy &&
-                        " | "
-                    }
-                    { hasArticleDestroy &&
-                        <DeletionModal title={article.title} id={article.id} deletion={deleteArticle} callback={()=>{setArticles(articles.filter((_article) => _article.id !== article.id));}}/>
-                    }
-                </div>
+                <Container><Row><Col>
+                    <p className={styles.post_timestamp}>{article.created_at}</p>
+                    <div className={styles.post_links}>
+                        { hasArticleUpdate &&
+                            <Link to={`/article/${article.id}/edit`}>Edit</Link>
+                        }
+                        { hasArticleUpdate && hasArticleDestroy &&
+                            " | "
+                        }
+                        { hasArticleDestroy &&
+                            <DeletionModal title={article.title} id={article.id} deletion={deleteArticle} callback={()=>{setArticles(articles.filter((_article) => _article.id !== article.id));}}/>
+                        }
+                    </div>
+                </Col></Row></Container>
             </div>
         ))}
         <Paginator 
             currentPage={currentPage}
-            totalArticles={totalArticles}
-            articlesPerPage={perPage}
+            totalItems={totalArticles}
+            itemsPerPage={perPage}
             onPageChange={handlePageChange}
         />
     </div>

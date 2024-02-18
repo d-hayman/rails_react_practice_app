@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_14_235842) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_17_014740) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -50,13 +50,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_14_235842) do
   end
 
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "commenter"
     t.text "body"
     t.bigint "article_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", default: "Public"
+    t.bigint "user_id"
     t.index ["article_id"], name: "index_comments_on_article_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "invites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -116,7 +117,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_14_235842) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "comments", "articles"
+  add_foreign_key "comments", "articles", on_delete: :cascade
+  add_foreign_key "comments", "users", on_delete: :nullify
   add_foreign_key "permissions_users", "permissions", on_delete: :cascade
   add_foreign_key "permissions_users", "users", on_delete: :cascade
   add_foreign_key "user_sessions", "users"

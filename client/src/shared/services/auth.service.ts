@@ -39,8 +39,9 @@ async function login(username: string, password: string) {
     }
 
     const res = await response.json();
-    localStorage.setItem("token", res.token)
-    localStorage.setItem("permissions", res.permissions)
+    localStorage.setItem("userId", res.user_id);
+    localStorage.setItem("token", res.token);
+    localStorage.setItem("permissions", res.permissions);
     localStorage.setItem("loggedInAs", username);
 
     return true;

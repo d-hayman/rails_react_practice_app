@@ -6,3 +6,28 @@
     border: 1px solid #ccc;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }
+
+.article_container {
+    border-radius: 10px;
+    border: 1px solid #495057;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+    margin-bottom: 1rem;
+    padding: 1rem 0rem;
+}
+
+.article_title {
+    text-decoration: unset;
+    color: #ccc;
+}
+
+.post_links {
+    float: right;
+    margin-right: 1rem;
+    margin-top: 1rem;
+}
+
+.post_timestamp {
+    float:left;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}

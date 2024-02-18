@@ -1,8 +1,19 @@
 import { useState } from 'react';
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import PropTypes, {InferProps} from "prop-types";
 
-function DeletionModal({ title, id, deletion, callback }: { title: string, id: string, deletion: Function, callback:any }) {
+const deleteModalPropTypes = {
+    title: PropTypes.string.isRequired, 
+    parent: PropTypes.string, 
+    id: PropTypes.string.isRequired, 
+    deletion: PropTypes.func.isRequired, 
+    callback:PropTypes.func
+};
+
+type deleteModalTypes = InferProps<typeof deleteModalPropTypes>;
+
+function DeletionModal({ title, parent, id, deletion, callback }: deleteModalTypes) {
     const [visible, setVisible] = useState(false);
 
     const handleShow = (e: any) => {
@@ -21,7 +32,10 @@ function DeletionModal({ title, id, deletion, callback }: { title: string, id: s
 
     const doDelete = async () => {
         try {
-            await deletion(id);
+            if(parent !== undefined)
+                await deletion(parent, id);
+            else
+                await deletion(id);
             if(typeof callback === "function") {
                 callback();
             }
