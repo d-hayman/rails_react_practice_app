@@ -46,7 +46,7 @@ function DeletionModal({ title, parent, id, deletion, callback }: deleteModalTyp
 
     return (
         <>
-            <Button variant="danger" onClick={handleShow}>Delete</Button>
+            <Button variant="outline-danger" onClick={handleShow}>Delete</Button>
 
             <Modal
                 show={visible}
